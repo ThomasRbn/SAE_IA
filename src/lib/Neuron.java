@@ -1,18 +1,18 @@
 package lib;
 
 public class Neuron {
-    public double    Value;
-    public double[]  Weights;
-    public double    Bias;
-    public double    Delta;
+    public double value;
+    public double[] weights;
+    public double bias;
+    public double delta;
 
     public Neuron(int prevLayerSize) {
-        Weights = new double[prevLayerSize];
-        Bias = Math.random();
-        Delta = Math.random() / 10000000000000.0;
-        Value = Math.random() / 10000000000000.0;
+        weights = new double[prevLayerSize];
+        bias = Math.random();
+        delta = Math.random() / 10000000000000.0;
+        value = Math.random() / 10000000000000.0;
 
-        for(int i = 0; i < Weights.length; i++)
-            Weights[i] = Math.random()/ Weights.length;
+        for (int i = 0; i < weights.length; i++)
+            weights[i] = Math.random() / weights.length;
     }
 }

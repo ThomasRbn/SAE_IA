@@ -37,28 +37,28 @@ public class MLP {
         int i, j, k;
         double new_value;
 
-        double[] output = new double[fLayers[fLayers.length - 1].Length];
+        double[] output = new double[fLayers[fLayers.length - 1].length];
 
         // input en entrée du réseau
-        for (i = 0; i < fLayers[0].Length; i++) {
-            fLayers[0].Neurons[i].Value = input[i];
+        for (i = 0; i < fLayers[0].length; i++) {
+            fLayers[0].neutrons[i].value = input[i];
         }
 
         // calculs couches cachées et sortie
         for (k = 1; k < fLayers.length; k++) {
-            for (i = 0; i < fLayers[k].Length; i++) {
+            for (i = 0; i < fLayers[k].length; i++) {
                 new_value = 0.0;
-                for (j = 0; j < fLayers[k - 1].Length; j++)
-                    new_value += fLayers[k].Neurons[i].Weights[j] * fLayers[k - 1].Neurons[j].Value;
+                for (j = 0; j < fLayers[k - 1].length; j++)
+                    new_value += fLayers[k].neutrons[i].weights[j] * fLayers[k - 1].neutrons[j].value;
 
-                new_value -= fLayers[k].Neurons[i].Bias;
-                fLayers[k].Neurons[i].Value = fTransferFunction.evaluate(new_value);
+                new_value -= fLayers[k].neutrons[i].bias;
+                fLayers[k].neutrons[i].value = fTransferFunction.evaluate(new_value);
             }
         }
 
         // Renvoyer sortie
-        for (i = 0; i < fLayers[fLayers.length - 1].Length; i++) {
-            output[i] = fLayers[fLayers.length - 1].Neurons[i].Value;
+        for (i = 0; i < fLayers[fLayers.length - 1].length; i++) {
+            output[i] = fLayers[fLayers.length - 1].neutrons[i].value;
         }
         return output;
     }
@@ -79,26 +79,26 @@ public class MLP {
 
 
         // Erreur de sortie
-        for (i = 0; i < fLayers[fLayers.length - 1].Length; i++) {
+        for (i = 0; i < fLayers[fLayers.length - 1].length; i++) {
             error = output[i] - new_output[i];
-            fLayers[fLayers.length - 1].Neurons[i].Delta = error * fTransferFunction.evaluateDer(new_output[i]);
+            fLayers[fLayers.length - 1].neutrons[i].delta = error * fTransferFunction.evaluateDer(new_output[i]);
         }
 
         for (k = fLayers.length - 2; k >= 0; k--) {
             // Calcul de l'erreur courante pour les couches cachées
             // et mise à jour des Delta de chaque neurone
-            for (i = 0; i < fLayers[k].Length; i++) {
+            for (i = 0; i < fLayers[k].length; i++) {
                 error = 0.0;
-                for (j = 0; j < fLayers[k + 1].Length; j++)
-                    error += fLayers[k + 1].Neurons[j].Delta * fLayers[k + 1].Neurons[j].Weights[i];
-                fLayers[k].Neurons[i].Delta = error * fTransferFunction.evaluateDer(fLayers[k].Neurons[i].Value);
+                for (j = 0; j < fLayers[k + 1].length; j++)
+                    error += fLayers[k + 1].neutrons[j].delta * fLayers[k + 1].neutrons[j].weights[i];
+                fLayers[k].neutrons[i].delta = error * fTransferFunction.evaluateDer(fLayers[k].neutrons[i].value);
             }
             // Mise à jour des poids de la couche suivante
-            for (i = 0; i < fLayers[k + 1].Length; i++) {
-                for (j = 0; j < fLayers[k].Length; j++)
-                    fLayers[k + 1].Neurons[i].Weights[j] += fLearningRate * fLayers[k + 1].Neurons[i].Delta *
-                            fLayers[k].Neurons[j].Value;
-                fLayers[k + 1].Neurons[i].Bias -= fLearningRate * fLayers[k + 1].Neurons[i].Delta;
+            for (i = 0; i < fLayers[k + 1].length; i++) {
+                for (j = 0; j < fLayers[k].length; j++)
+                    fLayers[k + 1].neutrons[i].weights[j] += fLearningRate * fLayers[k + 1].neutrons[i].delta *
+                            fLayers[k].neutrons[j].value;
+                fLayers[k + 1].neutrons[i].bias -= fLearningRate * fLayers[k + 1].neutrons[i].delta;
             }
         }
 
@@ -140,7 +140,7 @@ public class MLP {
      * @return Taille couche d'entrée
      */
     public int getInputLayerSize() {
-        return fLayers[0].Length;
+        return fLayers[0].length;
     }
 
 
@@ -148,6 +148,6 @@ public class MLP {
      * @return Taille couche de sortie
      */
     public int getOutputLayerSize() {
-        return fLayers[fLayers.length - 1].Length;
+        return fLayers[fLayers.length - 1].length;
     }
 }
