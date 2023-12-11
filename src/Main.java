@@ -33,13 +33,13 @@ public class Main {
 
     private static void run(double[][] inputs, double[][] outputs, TransferFunction transferFunction) {
         //On stocke le nombre de neurones par couche
-        int[] layers = {2, 3, 1};
+        int[] layers = {2, 4, 1};
         //On stocke le learning rate
         double learningRate = 0.1;
         //On stocke la fonction de transfert
         //On stocke le nombre d'époques
         int epochs = 10000;
-
+        double[][] output = new double[4][1];
         //On crée le MLP
         MLP mlp = new MLP(layers, learningRate, transferFunction);
 
@@ -48,20 +48,18 @@ public class Main {
         //Boucle infinie
         while (i < epochs) {
             //On calcule la sortie du MLP
-            mlp.execute(inputs[i % 4]);
+            output[i % 4] = mlp.execute(inputs[i % 4]);
             //On calcule l'erreur
             double error = mlp.backPropagate(inputs[i % 4], outputs[i % 4]);
             i++;
         }
         //On affiche les résultats
         for (i = 0; i < 4; i++) {
-            System.out.println("Input : " + Math.round(inputs[i][0]) + " " + Math.round(inputs[i][1]));
-            int currOutput = (int) Math.round(outputs[i][0]);
+            int currOutput = (int) Math.round(output[i][0]);
             if (currOutput == outputs[i][0])
                 System.out.println("Cohérent : " + currOutput);
             else
                 System.out.println("Incohérent : " + currOutput + " " + outputs[i][0]);
-            System.out.println("Output : " + Math.round(mlp.execute(inputs[i])[0]));
         }
         System.out.println("--------------------------------------------------");
     }
