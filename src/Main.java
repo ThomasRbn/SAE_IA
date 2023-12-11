@@ -26,9 +26,14 @@ public class Main {
         double[][] inputsXOR = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
         double[][] outputsXOR = {{0}, {1}, {1}, {0}};
 
+        // table random
+        double[][] inputsRandom = {{0,0}, {0,1}, {1,0}, {1,1}};
+        double[][] outputsRandom = {{0}, {1}, {0}, {1}};
+
         run(inputsET, outputsET, transferFunction);
         run(inputsOU, outputsOU, transferFunction);
         run(inputsXOR, outputsXOR, transferFunction);
+        run(inputsRandom, outputsRandom, transferFunction);
     }
 
     private static void run(double[][] inputs, double[][] outputs, TransferFunction transferFunction) {
