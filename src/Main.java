@@ -23,7 +23,7 @@ public class Main {
         stats.makeStats();
         statsKnn.makeStats();
 
-        int[] layers = {16 * 16, 8, 4, 5, 10};
+        int[] layers = {16 * 16, 10, 10, 20, 10};
 
         run(layers, trainingData, sampleData, transferFunction);
     }
@@ -31,27 +31,30 @@ public class Main {
     private static void run(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction) {
         double learningRate = 0.1;
         int epochs = 10000;
-        double[][] output = new double[4][1];
         MLP mlp = new MLP(layers, learningRate, transferFunction);
         int dataLength = trainingData.getImagettes().size();
+        double[][] outputs = new double[dataLength][10];
 
         int i = 0;
+        double[][] outputExpected = new double[dataLength][10];
+        for (int j = 0; j < dataLength; j++) {
+            Imagette curr = trainingData.getImagettes().get(j);
+            outputExpected[j][curr.getEtiquette()] = 1;
+        }
         while (i < dataLength) {
             double[] input = new double[16 * 16];
-            double[] outputExpected = new double[dataLength];
-            for (int j = 0; j < dataLength; j++) {
-                outputExpected[j] = trainingData.getImagettes().get(j).getEtiquette();
-            }
             for (int j = 0; j < 16; j++) {
                 for (int k = 0; k < 16; k++) {
                     input[j * 16 + k] = trainingData.getImagettes().get(i).getGris(j, k);
                 }
-                double[] outputMLP = mlp.execute(input);
-                mlp.backPropagate(outputExpected, outputMLP);
             }
-
+            double[] outputMLP = mlp.execute(input);
+            outputs[i] = outputMLP;
+            mlp.backPropagate(input, outputExpected[i]);
+            System.out.println("Epoch " + i + " : " + Arrays.toString(outputMLP) + " expected : " + Arrays.toString(outputExpected[i]));
             i++;
         }
+
         System.out.println("--------------------------------------------------");
     }
 
