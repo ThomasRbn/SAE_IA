@@ -8,7 +8,7 @@ public class Sigmoide implements TransferFunction{
      * @return sortie de la fonction sur l'entrée
      */
     public double evaluate(double value) {
-        return 1 / (1 + Math.exp(-value));
+        return 1.0 / (1.0 + Math.exp(-value));
     }
 
     /**
@@ -17,6 +17,6 @@ public class Sigmoide implements TransferFunction{
      * @return sortie de la fonction dérivée sur l'entrée
      */
     public double evaluateDer(double value) {
-        return evaluate(value) - Math.pow(evaluate(value), 2);
+        return evaluate(value) - (evaluate(value) * evaluate(value));
     }
 }

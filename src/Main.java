@@ -32,8 +32,22 @@ public class Main {
     }
 
     private static void run(double[][] inputs, double[][] outputs, TransferFunction transferFunction) {
+        if (transferFunction instanceof TangenteHyperbolique){
+            for(int i = 0; i < inputs.length; i++){
+                for(int j = 0; j < inputs[i].length; j++){
+                    if(inputs[i][j] == 0)
+                        inputs[i][j] = -1;
+                }
+            }
+            for(int i = 0; i < outputs.length; i++){
+                for(int j = 0; j < outputs[i].length; j++){
+                    if(outputs[i][j] == 0)
+                        outputs[i][j] = -1;
+                }
+            }
+        }
         //On stocke le nombre de neurones par couche
-        int[] layers = {2, 4, 1};
+        int[] layers = {2, 3, 1};
         //On stocke le learning rate
         double learningRate = 0.1;
         //On stocke la fonction de transfert
@@ -55,11 +69,7 @@ public class Main {
         }
         //On affiche les résultats
         for (i = 0; i < 4; i++) {
-            int currOutput = (int) Math.round(output[i][0]);
-            if (currOutput == outputs[i][0])
-                System.out.println("Cohérent : " + currOutput);
-            else
-                System.out.println("Incohérent : " + currOutput + " " + outputs[i][0]);
+            System.out.println("Output : " + outputs[i][0] + " | " + Arrays.toString(output[i]));
         }
         System.out.println("--------------------------------------------------");
     }
