@@ -18,6 +18,6 @@ public class TangenteHyperbolique implements TransferFunction {
      * @return sortie de la fonction dérivée sur l'entrée
      */
     public double evaluateDer(double value) {
-        return 1 - Math.pow(Math.tanh(value), 2);
+        return 1 - Math.pow(evaluate(value), 2);
     }
 }
