@@ -56,6 +56,11 @@ public class Main {
         //On affiche les résultats
         for (i = 0; i < 4; i++) {
             System.out.println("Input : " + Math.round(inputs[i][0]) + " " + Math.round(inputs[i][1]));
+            int currOutput = (int) Math.round(outputs[i][0]);
+            if (currOutput == outputs[i][0])
+                System.out.println("Cohérent : " + currOutput);
+            else
+                System.out.println("Incohérent : " + currOutput + " " + outputs[i][0]);
             System.out.println("Output : " + Math.round(mlp.execute(inputs[i])[0]));
         }
         System.out.println("--------------------------------------------------");
