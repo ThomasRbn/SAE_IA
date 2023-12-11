@@ -1,3 +1,5 @@
+package knn;
+
 public class PlusProche extends AlgoClassification {
 
     public PlusProche(Donnees dataEntrainement) {

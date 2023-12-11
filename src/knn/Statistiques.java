@@ -1,3 +1,5 @@
+package knn;
+
 public class Statistiques {
     AlgoClassification algo;
     Donnees dataTest;

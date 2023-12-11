@@ -1,3 +1,5 @@
+package knn;
+
 public abstract class AlgoClassification {
 
     private Donnees trainData;
