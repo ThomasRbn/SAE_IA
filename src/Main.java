@@ -1,7 +1,5 @@
-import lib.MLP;
-import lib.Sigmoide;
-import lib.TangenteHyperbolique;
-import lib.TransferFunction;
+import knn.*;
+import mlp.*;
 
 import java.util.Arrays;
 
@@ -14,67 +12,45 @@ public class Main {
 
     private static void runFunctions(TransferFunction transferFunction) {
         System.out.println("Tests avec fonction de transfert " + transferFunction.getClass().getName() + " :");
-        // table ET
-        double[][] inputsET = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-        double[][] outputsET = {{0}, {0}, {0}, {1}};
+        // Partie des Images
+        Donnees trainingData = Imagette.loadImagettes(1000, "assets/train-images-idx3-ubyte", "assets/train-labels-idx1-ubyte");
+        Donnees sampleData = Imagette.loadImagettes(100, "assets/t10k-images-idx3-ubyte", "assets/t10k-labels-idx1-ubyte");
+        PlusProche algo = new PlusProche(trainingData);
+        Knn knn = new Knn(trainingData, 10);
 
-        // table OU
-        double[][] inputsOU = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-        double[][] outputsOU = {{0}, {1}, {1}, {1}};
+        Statistiques stats = new Statistiques(algo, sampleData, trainingData);
+        Statistiques statsKnn = new Statistiques(knn, sampleData, trainingData);
+        stats.makeStats();
+        statsKnn.makeStats();
 
-        // table XOR
-        double[][] inputsXOR = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-        double[][] outputsXOR = {{0}, {1}, {1}, {0}};
+        int[] layers = {16 * 16, 8, 4, 5, 10};
 
-        // table random
-        double[][] inputsRandom = {{0,0}, {0,1}, {1,0}, {1,1}};
-        double[][] outputsRandom = {{0}, {1}, {0}, {1}};
-
-        run(inputsET, outputsET, transferFunction);
-        run(inputsOU, outputsOU, transferFunction);
-        run(inputsXOR, outputsXOR, transferFunction);
-        run(inputsRandom, outputsRandom, transferFunction);
+        run(layers, trainingData, sampleData, transferFunction);
     }
 
-    private static void run(double[][] inputs, double[][] outputs, TransferFunction transferFunction) {
-        if (transferFunction instanceof TangenteHyperbolique){
-            for(int i = 0; i < inputs.length; i++){
-                for(int j = 0; j < inputs[i].length; j++){
-                    if(inputs[i][j] == 0)
-                        inputs[i][j] = -1;
-                }
-            }
-            for(int i = 0; i < outputs.length; i++){
-                for(int j = 0; j < outputs[i].length; j++){
-                    if(outputs[i][j] == 0)
-                        outputs[i][j] = -1;
-                }
-            }
-        }
-        //On stocke le nombre de neurones par couche
-        int[] layers = {2, 3, 1};
-        //On stocke le learning rate
+    private static void run(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction) {
         double learningRate = 0.1;
-        //On stocke la fonction de transfert
-        //On stocke le nombre d'époques
         int epochs = 10000;
         double[][] output = new double[4][1];
-        //On crée le MLP
         MLP mlp = new MLP(layers, learningRate, transferFunction);
+        int dataLength = trainingData.getImagettes().size();
 
-        //Les types des sorties sont soit des doubles soit des tableaux de doubles
         int i = 0;
-        //Boucle infinie
-        while (i < epochs) {
-            //On calcule la sortie du MLP
-            output[i % 4] = mlp.execute(inputs[i % 4]);
-            //On calcule l'erreur
-            double error = mlp.backPropagate(inputs[i % 4], outputs[i % 4]);
+        while (i < dataLength) {
+            double[] input = new double[16 * 16];
+            double[] outputExpected = new double[dataLength];
+            for (int j = 0; j < dataLength; j++) {
+                outputExpected[j] = trainingData.getImagettes().get(j).getEtiquette();
+            }
+            for (int j = 0; j < 16; j++) {
+                for (int k = 0; k < 16; k++) {
+                    input[j * 16 + k] = trainingData.getImagettes().get(i).getGris(j, k);
+                }
+                double[] outputMLP = mlp.execute(input);
+                mlp.backPropagate(outputExpected, outputMLP);
+            }
+
             i++;
-        }
-        //On affiche les résultats
-        for (i = 0; i < 4; i++) {
-            System.out.println("Output : " + outputs[i][0] + " | " + Arrays.toString(output[i]));
         }
         System.out.println("--------------------------------------------------");
     }

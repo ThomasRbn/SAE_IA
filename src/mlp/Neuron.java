@@ -1,4 +1,4 @@
-package lib;
+package mlp;
 
 public class Neuron {
     public double value;

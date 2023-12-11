@@ -1,22 +1,23 @@
-package lib;
+package mlp;
 
-public class Sigmoide implements TransferFunction{
-
+public class TangenteHyperbolique implements TransferFunction {
     /**
      * Function de transfert
+     *
      * @param value entrée
      * @return sortie de la fonction sur l'entrée
      */
     public double evaluate(double value) {
-        return 1.0 / (1.0 + Math.exp(-value));
+        return Math.tanh(value);
     }
 
     /**
      * Dérivée de la fonction de tranfert
+     *
      * @param value entrée
      * @return sortie de la fonction dérivée sur l'entrée
      */
     public double evaluateDer(double value) {
-        return evaluate(value) - (evaluate(value) * evaluate(value));
+        return 1 - Math.pow(evaluate(value), 2);
     }
 }

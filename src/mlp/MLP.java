@@ -1,4 +1,4 @@
-package lib;
+package mlp;
 
 public class MLP {
     protected double fLearningRate;

@@ -1,6 +1,6 @@
 package knn;
 
-public class Main {
+public class MainKNN {
 
     public static void main(String[] args) {
         Donnees trainingData = Imagette.loadImagettes(1000, "assets/train-images-idx3-ubyte", "assets/train-labels-idx1-ubyte");

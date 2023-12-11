@@ -21,6 +21,10 @@ public class Imagette {
         return this.gris[l][c];
     }
 
+    public int getEtiquette() {
+        return etiquette;
+    }
+
     public Imagette setGris(int l, int c, int value) {
         this.gris[l][c] = value;
         return this;
