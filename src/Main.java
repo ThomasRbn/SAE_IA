@@ -7,7 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
         runFunctions(new Sigmoide());
-        runFunctions(new TangenteHyperbolique());
     }
 
     private static void runFunctions(TransferFunction transferFunction) {
@@ -23,39 +22,81 @@ public class Main {
         stats.makeStats();
         statsKnn.makeStats();
 
-        int[] layers = {16 * 16, 10, 10, 20, 10};
+        int[] layers = {16 * 16, 50, 40, 30, 20, 10, 10, 10, 10, 10, 10};
 
         run(layers, trainingData, sampleData, transferFunction);
     }
 
     private static void run(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction) {
+        // Ajout des données essentielles
         double learningRate = 0.1;
         int epochs = 10000;
         MLP mlp = new MLP(layers, learningRate, transferFunction);
+
+        // Longueur des données
         int dataLength = trainingData.getImagettes().size();
-        double[][] outputs = new double[dataLength][10];
 
         int i = 0;
+        // Tableau à 2 dimensions pour les sorties attendues
         double[][] outputExpected = new double[dataLength][10];
+
+        // Remplissage du tableau avec les étiquettes
+        // 0 -> 1 0 0 0 0 0 0 0 0 0
+        // 1 -> 0 1 0 0 0 0 0 0 0 0
+        // etc
         for (int j = 0; j < dataLength; j++) {
             Imagette curr = trainingData.getImagettes().get(j);
             outputExpected[j][curr.getEtiquette()] = 1;
         }
+
+        // Liste des entrées courantes (tous les pixels de l'imagette)
+        double[] input = new double[16 * 16];
+        // Tant que la liste n'a pas été déroulée jusqu'au bout
         while (i < dataLength) {
-            double[] input = new double[16 * 16];
-            for (int j = 0; j < 16; j++) {
-                for (int k = 0; k < 16; k++) {
-                    input[j * 16 + k] = trainingData.getImagettes().get(i).getGris(j, k);
-                }
-            }
-            double[] outputMLP = mlp.execute(input);
-            outputs[i] = outputMLP;
+            // Boucle pour remplir la liste avec tous les pixels de l'imagette
+            remplissageInput(trainingData, input, i);
+            // On fait une rétropropagation avec les réponses attendues
             mlp.backPropagate(input, outputExpected[i]);
-            System.out.println("Epoch " + i + " : " + Arrays.toString(outputMLP) + " expected : " + Arrays.toString(outputExpected[i]));
             i++;
         }
 
+        // Test de l'entrainement
+        int j = 0;
+        int good = 0;
+        while (j < sampleData.getImagettes().size()) {
+            input = new double[16 * 16];
+            // On remplit la liste avec les pixels de l'imagette
+            remplissageInput(sampleData, input, j);
+            // On récupère la sortie du MLP avec la méthode execute
+            double[] outputMLP = mlp.execute(input);
+
+            // On regarde la valeur max de la sortie du tableau
+            // Exemple : [0.1, 0.2, 0.3, 0.4, 0.5] -> 0.5
+            int max = 0;
+            for (int k = 0; k < outputMLP.length; k++) {
+                if (outputMLP[k] > outputMLP[max]) {
+                    max = k;
+                }
+            }
+            // Si la valeur max est la même que l'étiquette de l'imagette,
+            // on incrémente le nombre de réussites
+            if (max == sampleData.getImagettes().get(j).getEtiquette()) {
+                good++;
+            }
+            j++;
+        }
+        // affichage des résultats
+        System.out.println("Pourcentage de réussite : " + (double) good / (double) sampleData.getImagettes().size() * 100 + "%");
+
         System.out.println("--------------------------------------------------");
+    }
+
+    private static void remplissageInput(Donnees trainingData, double[] input, int i) {
+        for (int j = 0; j < 16; j++) {
+            for (int k = 0; k < 16; k++) {
+                input[j * 16 + k] = trainingData.getImagettes().get(i).getGris(j, k);
+            }
+        }
     }
 
 }
