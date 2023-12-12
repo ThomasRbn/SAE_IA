@@ -19,51 +19,77 @@ public class RushHourCar {
     }
 
     public boolean isLegal(Action a, List<RushHourCar> cars) {
+        return this.isVertical ? isLegalVertical(a, cars) : isLegalHorizontal(a, cars);
+    }
+
+    public boolean isLegalVertical(Action a, List<RushHourCar> cars) {
         boolean collision = false;
         return switch (a.getName()) {
             case "UP" -> {
-                if (!this.isVertical) {
-                    yield false;
-                }
-
                 for (RushHourCar car : cars) {
-                    if (this.position[0][1] == car.getPosition()[0][1] && this.name != car.getName()) {
-                        collision = true;
+                    if (car != this) {
+                        for (int i = 0; i < this.length; i++) {
+                            for (int j = 0; j < car.length; j++) {
+                                if (this.position[i][0] == car.position[j][0] && this.position[i][1] - 1 == car.position[j][1]) {
+                                    collision = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
-
                 yield this.position[0][1] > 0 && !collision;
             }
             case "DOWN" -> {
-                if (!this.isVertical) {
-                    yield false;
+                for (RushHourCar car : cars) {
+                    if (car != this) {
+                        for (int i = 0; i < this.length; i++) {
+                            for (int j = 0; j < car.length; j++) {
+                                if (this.position[i][0] == car.position[j][0] && this.position[i][1] + 1 == car.position[j][1]) {
+                                    collision = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
-
-                for (RushHourCar car : cars)
-                    if (this.position[this.length - 1][1] == car.getPosition()[car.getLength() - 1][1] && this.name != car.getName())
-                        collision = true;
-
                 yield this.position[this.length - 1][1] < 5 && !collision;
             }
+            default -> false;
+        };
+    }
+
+    public boolean isLegalHorizontal(Action a, List<RushHourCar> cars) {
+        boolean collision = false;
+        return switch (a.getName()) {
             case "LEFT" -> {
-                if (this.isVertical) {
-                    yield false;
+                for (RushHourCar car : cars) {
+                    if (car != this) {
+                        for (int i = 0; i < this.length; i++) {
+                            for (int j = 0; j < car.length; j++) {
+                                if (this.position[i][0] - 1 == car.position[j][0] && this.position[i][1] == car.position[j][1]) {
+                                    collision = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
-
-                for (RushHourCar car : cars)
-                    if (this.position[0][0] == car.getPosition()[0][0] && this.name != car.getName())
-                        collision = true;
-
                 yield this.position[0][0] > 0 && !collision;
             }
             case "RIGHT" -> {
-                if (this.isVertical) {
-                    yield false;
+                for (RushHourCar car : cars) {
+                    if (car != this) {
+                        for (int i = 0; i < this.length; i++) {
+                            for (int j = 0; j < car.length; j++) {
+                                if (this.position[i][0] + 1 == car.position[j][0] && this.position[i][1] == car.position[j][1]) {
+                                    collision = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
-
-                for (RushHourCar car : cars)
-                    if (this.position[this.length - 1][0] == car.getPosition()[car.getLength() - 1][0] && this.name != car.getName())
-                        collision = true;
                 yield this.position[this.length - 1][0] < 5 && !collision;
             }
             default -> false;
