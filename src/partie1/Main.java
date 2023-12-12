@@ -14,17 +14,20 @@ public class Main {
 
     private static void runFunctions(TransferFunction transferFunction) {
         // Partie des Images
-        Donnees trainingData = Imagette.loadImagettes(2000, "assets/train-images-idx3-ubyte", "assets/train-labels-idx1-ubyte");
-        Donnees sampleData = Imagette.loadImagettes(300, "assets/t10k-images-idx3-ubyte", "assets/t10k-labels-idx1-ubyte");
+        Donnees trainingDataClothes = Imagette.loadImagettes(2000, "assets/clothes/train-images.idx3-ubyte", "assets/clothes/train-labels.idx1-ubyte");
+        Donnees sampleDataClothes = Imagette.loadImagettes(300, "assets/clothes/t10k-images.idx3-ubyte", "assets/clothes/t10k-labels.idx1-ubyte");
+
+        Donnees trainingDataNum = Imagette.loadImagettes(2000, "assets/numbers/train-images.idx3-ubyte", "assets/numbers/train-labels.idx1-ubyte");
+        Donnees sampleDataNum = Imagette.loadImagettes(300, "assets/numbers/t10k-images.idx3-ubyte", "assets/numbers/t10k-labels.idx1-ubyte");
 
         long startTime = System.currentTimeMillis();
-        runKNN(trainingData, sampleData);
+        runKNN(trainingDataClothes, sampleDataClothes);
         long endTime = System.currentTimeMillis();
         System.out.println("Temps d'exécution : " + (endTime - startTime) + "ms");
 
         int[] layers = {28*28, 128, 10};
         startTime = System.currentTimeMillis();
-        runMLP(layers, trainingData, sampleData, transferFunction, 0.05);
+        runMLP(layers, trainingDataClothes, sampleDataClothes, transferFunction, 0.05);
         endTime = System.currentTimeMillis();
         System.out.println(" " + (endTime - startTime) + "ms");
 
