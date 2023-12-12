@@ -6,6 +6,7 @@ import rushhour.ia.framework.recherche.SearchNode;
 import rushhour.ia.framework.recherche.SearchProblem;
 import rushhour.ia.framework.recherche.TreeSearch;
 
+import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 
 public class BFS extends TreeSearch {
@@ -17,7 +18,7 @@ public class BFS extends TreeSearch {
      */
     public BFS(SearchProblem p, State s) {
         super(p, s);
-        frontier = new PriorityQueue<>();
+        frontier = new ArrayDeque<>();
     }
 
     @Override
@@ -33,6 +34,7 @@ public class BFS extends TreeSearch {
                 return true;
             }
             explored.add(node.getState());
+            System.out.println(problem.getActions(node.getState()));
             for (Action a : problem.getActions(node.getState())) {
                 SearchNode s = SearchNode.makeChildSearchNode(this.problem, node, a);
                 if (!explored.contains(s.getState()) && !frontier.contains(s)) {

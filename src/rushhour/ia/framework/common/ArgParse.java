@@ -3,7 +3,7 @@ package rushhour.ia.framework.common;
 import rushhour.ia.algo.jeux.HumanPlayer;
 import rushhour.ia.algo.jeux.MinMaxPlayer;
 import rushhour.ia.algo.jeux.RandomPlayer;
-import rushhour.ia.algo.recherche.RandomSearch;
+import rushhour.ia.algo.recherche.*;
 import rushhour.ia.framework.jeux.Game;
 import rushhour.ia.framework.jeux.Player;
 import rushhour.ia.framework.recherche.SearchProblem;
@@ -167,6 +167,8 @@ public class ArgParse {
                 return new Vacuum();
             case "puz":
                 return new EightPuzzle();
+            case "rh":
+                return new RushHour();
             default:
                 System.out.println("Problème inconnu");
                 usage();
@@ -192,8 +194,6 @@ public class ArgParse {
                 return new TicTacToe();
             case "c4":
                 return new ConnectFour(6, 7);
-            case "rh":
-                return new RushHour();
             default:
                 System.out.println("Jeux inconnu");
                 usage();
@@ -247,16 +247,16 @@ public class ArgParse {
         switch (algo) {
             case "rnd":
                 return new RandomSearch(p, s);
-            /*case "bfs":
-            return new BFS(p,s);
-        case "dfs":
-            return new DFS(p,s);
-        case "ucs":
-            return new UCS(p,s);
-        case "gfs":
-            return new GFS(p,s);
-        case "astar":
-        return new AStar(p,s);*/
+            case "bfs":
+                return new BFS(p, s);
+            case "dfs":
+                return new DFS(p, s);
+            case "ucs":
+                return new UCS(p, s);
+            case "gfs":
+                return new GFS(p, s);
+            case "astar":
+                return new AStar(p, s);
             default:
                 System.out.println("Algorithme inconnu");
                 usage();
@@ -275,17 +275,13 @@ public class ArgParse {
     public static State makeInitialState(String prob) {
         if (prob == null)
             prob = "vac";
-        switch (prob) {
-            case "dum":
-                return new DummyState();
-            case "map":
-                return RomaniaMap.ARAD;
-            case "vac":
-            default:
-                return new VacuumState();
-            case "puz":
-                return new EightPuzzleState();
-        }
+        return switch (prob) {
+            case "dum" -> new DummyState();
+            case "map" -> RomaniaMap.ARAD;
+            case "puz" -> new EightPuzzleState();
+            case "rh" -> new RushHourState();
+            default -> new VacuumState();
+        };
     }
 }
 
