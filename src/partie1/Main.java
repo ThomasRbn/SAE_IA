@@ -66,8 +66,8 @@ public class Main {
                 erreur = mlp.backPropagate(input, outputExpectedTrain[i]);
                 i++;
             }
-            System.out.println("Erreur : " + erreur);
         }
+        System.out.println("Erreur : " + erreur);
 
         // Test de l'entrainement
         int j = 0;
@@ -88,7 +88,6 @@ public class Main {
                     max = k;
                 }
             }
-            System.out.println("max : " + max + " Etiquette : " + sampleData.getImagettes().get(j).getEtiquette());
             // Si la valeur max est la même que l'étiquette de l'imagette,
             // on incrémente le nombre de réussites
             if (max == sampleData.getImagettes().get(j).getEtiquette()) {
