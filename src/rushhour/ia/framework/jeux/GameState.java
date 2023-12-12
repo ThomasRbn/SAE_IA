@@ -1,6 +1,6 @@
 package rushhour.ia.framework.jeux;
 
-import ia.framework.common.State;
+import rushhour.ia.framework.common.State;
 
 /**
  * Represente un etat d'un jeux

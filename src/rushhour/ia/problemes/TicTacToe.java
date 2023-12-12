@@ -1,9 +1,9 @@
 package rushhour.ia.problemes;
 
-import ia.framework.common.Action;
-import ia.framework.common.State;
-import ia.framework.jeux.Game;
-import ia.framework.jeux.GameState;
+import rushhour.ia.framework.common.Action;
+import rushhour.ia.framework.common.State;
+import rushhour.ia.framework.jeux.Game;
+import rushhour.ia.framework.jeux.GameState;
 
 import java.util.ArrayList;
 import java.util.Scanner;

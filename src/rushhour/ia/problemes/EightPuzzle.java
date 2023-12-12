@@ -1,8 +1,8 @@
 package rushhour.ia.problemes;
 
-import ia.framework.common.Action;
-import ia.framework.common.State;
-import ia.framework.recherche.SearchProblem;
+import rushhour.ia.framework.common.Action;
+import rushhour.ia.framework.common.State;
+import rushhour.ia.framework.recherche.SearchProblem;
 
 import java.util.ArrayList;
 

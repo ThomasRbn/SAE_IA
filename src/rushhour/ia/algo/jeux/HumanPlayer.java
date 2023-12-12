@@ -1,10 +1,10 @@
 package rushhour.ia.algo.jeux;
 
 
-import ia.framework.common.Action;
-import ia.framework.jeux.Game;
-import ia.framework.jeux.GameState;
-import ia.framework.jeux.Player;
+import rushhour.ia.framework.common.Action;
+import rushhour.ia.framework.jeux.Game;
+import rushhour.ia.framework.jeux.GameState;
+import rushhour.ia.framework.jeux.Player;
 
 /**
  * Définie un joueur Humain

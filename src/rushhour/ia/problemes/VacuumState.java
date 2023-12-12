@@ -1,6 +1,6 @@
 package rushhour.ia.problemes;
 
-import ia.framework.common.State;
+import rushhour.ia.framework.common.State;
 
 import java.util.Arrays;
 

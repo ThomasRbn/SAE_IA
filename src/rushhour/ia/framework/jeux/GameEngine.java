@@ -1,7 +1,7 @@
 package rushhour.ia.framework.jeux;
 
-import ia.framework.common.Action;
-import ia.framework.common.ArgParse;
+import rushhour.ia.framework.common.Action;
+import rushhour.ia.framework.common.ArgParse;
 
 /**
  * Définie un gestionaire du jeux (Moteur de jeux)

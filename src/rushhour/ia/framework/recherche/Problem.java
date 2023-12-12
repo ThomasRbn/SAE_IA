@@ -1,9 +1,9 @@
 package rushhour.ia.framework.recherche;
 
-import ia.framework.common.Action;
-import ia.framework.common.Misc;
-import ia.framework.common.State;
-import ia.framework.common.StateActionPair;
+import rushhour.ia.framework.common.Action;
+import rushhour.ia.framework.common.Misc;
+import rushhour.ia.framework.common.State;
+import rushhour.ia.framework.common.StateActionPair;
 
 import java.util.ArrayList;
 import java.util.Collections;

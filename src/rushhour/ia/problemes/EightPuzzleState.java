@@ -1,8 +1,8 @@
 package rushhour.ia.problemes;
 
-import ia.framework.common.Action;
-import ia.framework.common.State;
-import ia.framework.recherche.HasHeuristic;
+import rushhour.ia.framework.common.Action;
+import rushhour.ia.framework.common.State;
+import rushhour.ia.framework.recherche.HasHeuristic;
 
 import java.util.Arrays;
 import java.util.Random;

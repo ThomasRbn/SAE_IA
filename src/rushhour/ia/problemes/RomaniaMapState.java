@@ -1,7 +1,7 @@
 package rushhour.ia.problemes;
 
-import ia.framework.common.State;
-import ia.framework.recherche.HasHeuristic;
+import rushhour.ia.framework.common.State;
+import rushhour.ia.framework.recherche.HasHeuristic;
 
 /**
  * Représente une état du problème du voyage en Roumanie

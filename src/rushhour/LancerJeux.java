@@ -1,10 +1,10 @@
 package rushhour;
 
-import ia.framework.common.ArgParse;
-import ia.framework.jeux.Game;
-import ia.framework.jeux.GameEngine;
-import ia.framework.jeux.GameState;
-import ia.framework.jeux.Player;
+import rushhour.ia.framework.common.ArgParse;
+import rushhour.ia.framework.jeux.Game;
+import rushhour.ia.framework.jeux.GameEngine;
+import rushhour.ia.framework.jeux.GameState;
+import rushhour.ia.framework.jeux.Player;
 
 /**
  * Lance un une partie de jeux donné et affiche le resultat

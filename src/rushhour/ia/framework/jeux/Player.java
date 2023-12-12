@@ -1,7 +1,7 @@
 package rushhour.ia.framework.jeux;
 
 
-import ia.framework.common.Action;
+import rushhour.ia.framework.common.Action;
 
 /**
  * Définie un joueur

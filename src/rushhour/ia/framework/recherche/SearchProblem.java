@@ -1,8 +1,8 @@
 package rushhour.ia.framework.recherche;
 
-import ia.framework.common.Action;
-import ia.framework.common.BaseProblem;
-import ia.framework.common.State;
+import rushhour.ia.framework.common.Action;
+import rushhour.ia.framework.common.BaseProblem;
+import rushhour.ia.framework.common.State;
 
 /**
 * Représente un problème de recherche.

@@ -1,8 +1,8 @@
 package rushhour.ia.problemes;
 
-import ia.framework.common.Misc;
-import ia.framework.common.State;
-import ia.framework.jeux.GameState;
+import rushhour.ia.framework.common.Misc;
+import rushhour.ia.framework.common.State;
+import rushhour.ia.framework.jeux.GameState;
 
 import java.util.Arrays;
 

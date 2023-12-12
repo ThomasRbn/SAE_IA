@@ -1,14 +1,14 @@
 package rushhour.ia.framework.common;
 
-import ia.algo.jeux.HumanPlayer;
-import ia.algo.jeux.MinMaxPlayer;
-import ia.algo.jeux.RandomPlayer;
-import ia.algo.recherche.RandomSearch;
-import ia.framework.jeux.Game;
-import ia.framework.jeux.Player;
-import ia.framework.recherche.SearchProblem;
-import ia.framework.recherche.TreeSearch;
-import ia.problemes.*;
+import rushhour.ia.algo.jeux.HumanPlayer;
+import rushhour.ia.algo.jeux.MinMaxPlayer;
+import rushhour.ia.algo.jeux.RandomPlayer;
+import rushhour.ia.algo.recherche.RandomSearch;
+import rushhour.ia.framework.jeux.Game;
+import rushhour.ia.framework.jeux.Player;
+import rushhour.ia.framework.recherche.SearchProblem;
+import rushhour.ia.framework.recherche.TreeSearch;
+import rushhour.ia.problemes.*;
 
 import java.util.Arrays;
 
