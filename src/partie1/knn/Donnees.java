@@ -1,4 +1,4 @@
-package knn;
+package partie1.knn;
 
 import java.util.ArrayList;
 import java.util.List;

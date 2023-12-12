@@ -1,4 +1,4 @@
-package knn;
+package partie1.knn;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

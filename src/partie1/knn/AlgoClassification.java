@@ -1,4 +1,4 @@
-package knn;
+package partie1.knn;
 
 public abstract class AlgoClassification {
 
