@@ -22,7 +22,7 @@ public class Statistiques {
             }
         }
 
-        System.out.println("Taux de bonne réponses : " + rightLabels + "/" + dataTest.getImagettes().size());
+        System.out.println("Taux de bonne réponses : " + rightLabels + "/" + dataTest.getImagettes().size() + " (" + (rightLabels * 100.0 / dataTest.getImagettes().size()) + "%)");
     }
 
     public boolean checkCorrectLabel(Imagette imTest, int predictedLabel) {
