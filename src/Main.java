@@ -27,7 +27,7 @@ public class Main {
 
     private static void runMLP(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction) {
         // Ajout des données essentielles
-        double learningRate = 0.01;
+        double learningRate = 0.05;
         int epochs = 10000;
         MLP mlp = new MLP(layers, learningRate, transferFunction);
 
@@ -43,6 +43,12 @@ public class Main {
         // etc
         for (int j = 0; j < dataLength; j++) {
             Imagette curr = trainingData.getImagettes().get(j);
+            for (int k = 0; k < 10; k++) {
+                if(transferFunction instanceof TangenteHyperbolique)
+                    outputExpected[j][k] = -1;
+                else
+                    outputExpected[j][k] = 0;
+            }
             outputExpected[j][curr.getEtiquette()] = 1;
         }
 
@@ -72,11 +78,14 @@ public class Main {
             // On regarde la valeur max de la sortie du tableau
             // Exemple : [0.1, 0.2, 0.3, 0.4, 0.5] -> 0.5
             int max = 0;
+            double maxOutput = 0;
             for (int k = 0; k < outputMLP.length; k++) {
                 if (outputMLP[k] > outputMLP[max]) {
                     max = k;
+                    maxOutput = outputMLP[k];
                 }
             }
+            System.out.println("max : " + max + " Etiquette : " + sampleData.getImagettes().get(j).getEtiquette());
             // Si la valeur max est la même que l'étiquette de l'imagette,
             // on incrémente le nombre de réussites
             if (max == sampleData.getImagettes().get(j).getEtiquette()) {
