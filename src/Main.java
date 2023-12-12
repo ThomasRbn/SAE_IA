@@ -28,39 +28,38 @@ public class Main {
     private static void runMLP(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction) {
         // Ajout des données essentielles
         double learningRate = 0.05;
-        int epochs = 10000;
         MLP mlp = new MLP(layers, learningRate, transferFunction);
 
         // Longueur des données
-        int dataLength = trainingData.getImagettes().size();
+        int trainingDataLength = trainingData.getImagettes().size();
+        int sampleDataLength = sampleData.getImagettes().size();
 
         // Tableau à 2 dimensions pour les sorties attendues
-        double[][] outputExpected = new double[dataLength][10];
-
+        double[][] outputExpectedTrain = new double[trainingDataLength][10];
         // Remplissage du tableau avec les étiquettes
         // 0 -> 1 0 0 0 0 0 0 0 0 0
         // 1 -> 0 1 0 0 0 0 0 0 0 0
         // etc
-        for (int j = 0; j < dataLength; j++) {
+        for (int j = 0; j < trainingDataLength; j++) {
             Imagette curr = trainingData.getImagettes().get(j);
             for (int k = 0; k < 10; k++) {
                 if(transferFunction instanceof TangenteHyperbolique)
-                    outputExpected[j][k] = -1;
+                    outputExpectedTrain[j][k] = -1;
                 else
-                    outputExpected[j][k] = 0;
+                    outputExpectedTrain[j][k] = 0;
             }
-            outputExpected[j][curr.getEtiquette()] = 1;
+            outputExpectedTrain[j][curr.getEtiquette()] = 1;
         }
 
         // Liste des entrées courantes (tous les pixels de l'imagette)
         double[] input = new double[16 * 16];
         // Tant que la liste n'a pas été déroulée jusqu'au bout
         double erreur = 0;
-        for (int i = 0; i < dataLength; i++) {
+        for (int i = 0; i < trainingDataLength; i++) {
             // Boucle pour remplir la liste avec tous les pixels de l'imagette
             remplissageInput(trainingData, input, i);
             // On fait une rétropropagation avec les réponses attendues
-            erreur = mlp.backPropagate(input, outputExpected[i]);
+            erreur = mlp.backPropagate(input, outputExpectedTrain[i]);
             i++;
         }
         System.out.println("Erreur : " + erreur);
@@ -82,7 +81,6 @@ public class Main {
             for (int k = 0; k < outputMLP.length; k++) {
                 if (outputMLP[k] > outputMLP[max]) {
                     max = k;
-                    maxOutput = outputMLP[k];
                 }
             }
             System.out.println("max : " + max + " Etiquette : " + sampleData.getImagettes().get(j).getEtiquette());
