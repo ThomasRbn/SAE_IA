@@ -1,5 +1,7 @@
-import knn.*;
-import mlp.*;
+package partie1;
+
+import partie1.knn.*;
+import partie1.mlp.*;
 
 public class Main {
 
@@ -11,8 +13,8 @@ public class Main {
     private static void runFunctions(TransferFunction transferFunction) {
         System.out.println("Tests avec fonction de transfert " + transferFunction.getClass().getName() + " :");
         // Partie des Images
-        Donnees trainingData = Imagette.loadImagettes(1000, "assets/train-images-idx3-ubyte", "assets/train-labels-idx1-ubyte");
-        Donnees sampleData = Imagette.loadImagettes(100, "assets/t10k-images-idx3-ubyte", "assets/t10k-labels-idx1-ubyte");
+        Donnees trainingData = Imagette.loadImagettes(2000, "assets/train-images-idx3-ubyte", "assets/train-labels-idx1-ubyte");
+        Donnees sampleData = Imagette.loadImagettes(300, "assets/t10k-images-idx3-ubyte", "assets/t10k-labels-idx1-ubyte");
         runKNN(trainingData, sampleData);
 
         int[] layers = {16 * 16, 16 * 16, 10};
@@ -43,7 +45,7 @@ public class Main {
         for (int j = 0; j < trainingDataLength; j++) {
             Imagette curr = trainingData.getImagettes().get(j);
             for (int k = 0; k < 10; k++) {
-                if(transferFunction instanceof TangenteHyperbolique)
+                if (transferFunction instanceof TangenteHyperbolique)
                     outputExpectedTrain[j][k] = -1;
                 else
                     outputExpectedTrain[j][k] = 0;
@@ -55,14 +57,17 @@ public class Main {
         double[] input = new double[16 * 16];
         // Tant que la liste n'a pas été déroulée jusqu'au bout
         double erreur = 0;
-        for (int i = 0; i < trainingDataLength; i++) {
-            // Boucle pour remplir la liste avec tous les pixels de l'imagette
-            remplissageInput(trainingData, input, i);
-            // On fait une rétropropagation avec les réponses attendues
-            erreur = mlp.backPropagate(input, outputExpectedTrain[i]);
-            i++;
+        double epoch = 10;
+        for (int e = 0; e < epoch; e++) {
+            for (int i = 0; i < trainingDataLength; i++) {
+                // Boucle pour remplir la liste avec tous les pixels de l'imagette
+                remplissageInput(trainingData, input, i);
+                // On fait une rétropropagation avec les réponses attendues
+                erreur = mlp.backPropagate(input, outputExpectedTrain[i]);
+                i++;
+            }
+            System.out.println("Erreur : " + erreur);
         }
-        System.out.println("Erreur : " + erreur);
 
         // Test de l'entrainement
         int j = 0;
