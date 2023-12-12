@@ -192,6 +192,8 @@ public class ArgParse {
                 return new TicTacToe();
             case "c4":
                 return new ConnectFour(6, 7);
+            case "rh":
+                return new RushHour();
             default:
                 System.out.println("Jeux inconnu");
                 usage();
