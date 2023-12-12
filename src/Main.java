@@ -1,12 +1,11 @@
 import knn.*;
 import mlp.*;
 
-import java.util.Arrays;
-
 public class Main {
 
     public static void main(String[] args) {
         runFunctions(new Sigmoide());
+        runFunctions(new TangenteHyperbolique());
     }
 
     private static void runFunctions(TransferFunction transferFunction) {
@@ -14,29 +13,27 @@ public class Main {
         // Partie des Images
         Donnees trainingData = Imagette.loadImagettes(1000, "assets/train-images-idx3-ubyte", "assets/train-labels-idx1-ubyte");
         Donnees sampleData = Imagette.loadImagettes(100, "assets/t10k-images-idx3-ubyte", "assets/t10k-labels-idx1-ubyte");
-        PlusProche algo = new PlusProche(trainingData);
-        Knn knn = new Knn(trainingData, 10);
+        runKNN(trainingData, sampleData);
 
-        Statistiques stats = new Statistiques(algo, sampleData, trainingData);
-        Statistiques statsKnn = new Statistiques(knn, sampleData, trainingData);
-        stats.makeStats();
-        statsKnn.makeStats();
-
-        int[] layers = {16 * 16, 50, 40, 30, 20, 10, 10, 10, 10, 10, 10};
-
-        run(layers, trainingData, sampleData, transferFunction);
+        int[] layers = {16 * 16, 16 * 16, 10};
+        runMLP(layers, trainingData, sampleData, transferFunction);
     }
 
-    private static void run(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction) {
+    private static void runKNN(Donnees trainingData, Donnees sampleData) {
+        Knn knn = new Knn(trainingData, 10);
+        Statistiques statsKnn = new Statistiques(knn, sampleData, trainingData);
+        statsKnn.makeStats();
+    }
+
+    private static void runMLP(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction) {
         // Ajout des données essentielles
-        double learningRate = 0.1;
+        double learningRate = 0.01;
         int epochs = 10000;
         MLP mlp = new MLP(layers, learningRate, transferFunction);
 
         // Longueur des données
         int dataLength = trainingData.getImagettes().size();
 
-        int i = 0;
         // Tableau à 2 dimensions pour les sorties attendues
         double[][] outputExpected = new double[dataLength][10];
 
@@ -52,13 +49,15 @@ public class Main {
         // Liste des entrées courantes (tous les pixels de l'imagette)
         double[] input = new double[16 * 16];
         // Tant que la liste n'a pas été déroulée jusqu'au bout
-        while (i < dataLength) {
+        double erreur = 0;
+        for (int i = 0; i < dataLength; i++) {
             // Boucle pour remplir la liste avec tous les pixels de l'imagette
             remplissageInput(trainingData, input, i);
             // On fait une rétropropagation avec les réponses attendues
-            mlp.backPropagate(input, outputExpected[i]);
+            erreur = mlp.backPropagate(input, outputExpected[i]);
             i++;
         }
+        System.out.println("Erreur : " + erreur);
 
         // Test de l'entrainement
         int j = 0;
