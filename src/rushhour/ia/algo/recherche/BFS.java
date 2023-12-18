@@ -37,11 +37,25 @@ public class BFS extends TreeSearch {
             System.out.println(problem.getActions(node.getState()));
             for (Action a : problem.getActions(node.getState())) {
                 SearchNode s = SearchNode.makeChildSearchNode(this.problem, node, a);
+
+//                System.out.println(s.getState());
+//                System.out.println(!explored.contains(s.getState()) + " " + !frontier.contains(s));
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 if (!explored.contains(s.getState()) && !frontier.contains(s)) {
                     System.out.println(a);
                     frontier.add(s);
                 }
-                System.out.println(frontier + "-------");
+//                System.out.println(frontier + "-------");
+                System.out.println(explored);
+                for (State n : explored) {
+                    System.out.println(n.hashCode());
+                }
             }
         }
         return false;

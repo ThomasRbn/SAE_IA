@@ -136,4 +136,19 @@ public class RushHourCar {
     public boolean isVertical() {
         return isVertical;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RushHourCar that = (RushHourCar) o;
+        return length == that.length && name == that.name && isVertical == that.isVertical && Arrays.deepEquals(position, that.position);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(length, name, isVertical);
+        result = 31 * result + Arrays.deepHashCode(position);
+        return result;
+    }
 }

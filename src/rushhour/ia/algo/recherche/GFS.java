@@ -7,6 +7,9 @@ import rushhour.ia.framework.recherche.SearchNode;
 import rushhour.ia.framework.recherche.SearchProblem;
 import rushhour.ia.framework.recherche.TreeSearch;
 
+import java.util.ArrayDeque;
+import java.util.HashSet;
+
 public class GFS extends TreeSearch implements HasHeuristic {
     /**
      * Crée un algorithme de recherche
@@ -16,6 +19,8 @@ public class GFS extends TreeSearch implements HasHeuristic {
      */
     public GFS(SearchProblem p, State s) {
         super(p, s);
+        frontier = new ArrayDeque<>();
+        explored = new HashSet<>();
     }
 
     @Override

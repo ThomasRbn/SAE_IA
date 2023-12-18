@@ -1,6 +1,5 @@
 package rushhour.ia.problemes;
 
-import rushhour.ia.framework.common.Action;
 import rushhour.ia.framework.common.State;
 
 import java.util.ArrayList;
@@ -124,7 +123,7 @@ public class RushHourState extends State {
                 "\t+---+---+---+---+---+---+\n" +
                 "1   | " + board[0][1] + " | " + board[1][1] + " | " + board[2][1] + " | " + board[3][1] + " | " + board[4][1] + " | " + board[5][1] + " |\n" +
                 "\t+---+---+---+---+---+---+---+---+\n" +
-                "2   | " + board[0][2] + " | " + board[1][2] + " | " + board[2][2] + " | " + board[3][2] + " | " + board[4][2] + " | " + board[5][2] + " | " +  board[6][2] + " | " + board[7][2] + " |\n" +
+                "2   | " + board[0][2] + " | " + board[1][2] + " | " + board[2][2] + " | " + board[3][2] + " | " + board[4][2] + " | " + board[5][2] + " | " + board[6][2] + " | " + board[7][2] + " |\n" +
                 "\t+---+---+---+---+---+---+---+---+\n" +
                 "3   | " + board[0][3] + " | " + board[1][3] + " | " + board[2][3] + " | " + board[3][3] + " | " + board[4][3] + " | " + board[5][3] + " |\n" +
                 "\t+---+---+---+---+---+---+\n" +
@@ -147,23 +146,7 @@ public class RushHourState extends State {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        RushHourState that = (RushHourState) o;
-        return Arrays.deepEquals(board, that.board);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(super.hashCode(), cars);
-        result = 31 * result + Arrays.deepHashCode(board);
-        return result;
-    }
-
-    @Override
     protected int hashState() {
-        return 31 * Arrays.deepHashCode(board) + 31 * cars.hashCode();
+        return Objects.hash( cars);
     }
 }
