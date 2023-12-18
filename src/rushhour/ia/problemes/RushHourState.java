@@ -139,9 +139,8 @@ public class RushHourState extends State {
 
     @Override
     protected boolean equalsState(State o) {
-        RushHourState other = (RushHourState) o;
-        return Arrays.deepEquals(board, other.board)
-                && cars.equals(other.cars);
+        RushHourState that = (RushHourState) o;
+        return Arrays.deepEquals(board, that.board);
     }
 
     @Override
