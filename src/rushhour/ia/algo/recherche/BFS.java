@@ -1,14 +1,12 @@
 package rushhour.ia.algo.recherche;
 
 import rushhour.ia.framework.common.Action;
-import rushhour.ia.framework.common.ArgParse;
 import rushhour.ia.framework.common.State;
 import rushhour.ia.framework.recherche.SearchNode;
 import rushhour.ia.framework.recherche.SearchProblem;
 import rushhour.ia.framework.recherche.TreeSearch;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class BFS extends TreeSearch {
@@ -20,47 +18,33 @@ public class BFS extends TreeSearch {
      */
     public BFS(SearchProblem p, State s) {
         super(p, s);
+        frontier = new ArrayDeque<>();
     }
 
     @Override
     public boolean solve() {
         SearchNode node = SearchNode.makeRootSearchNode(intial_state);
-        State state = node.getState();
-        frontier = new ArrayDeque<>();
-        explored = new HashSet<>();
         frontier.add(node);
-        if (ArgParse.DEBUG) {
-            System.out.print("[" + state);
-        }
 
         while (!frontier.isEmpty()) {
-            node = frontier.remove();
-            state = node.getState();
-            if (ArgParse.DEBUG) {
-                System.out.print(" + " + node.getAction() + "] -> [" + state);
-            }
-            if (problem.isGoalState(state)) {
+            node = frontier.poll();
+            if (problem.isGoalState(node.getState())) {
                 end_node = node;
-                if (ArgParse.DEBUG) {
-                    System.out.println("]");
-                }
                 return true;
-            } else {
-                explored.add(state);
             }
-            for (Action a : problem.getActions(state)) {
-                SearchNode child = SearchNode.makeChildSearchNode(problem, node, a);
-                State child_state = child.getState();
-                if (!frontier.contains(child) && !explored.contains(child_state)) {
-                    frontier.add(child);
+
+            explored.add(node.getState());
+            for (Action a : problem.getActions(node.getState())) {
+                System.out.println(problem.getActions(node.getState()));
+                SearchNode s = SearchNode.makeChildSearchNode(this.problem, node, a);
+                System.out.println(s.getState());
+                System.out.println(explored.contains(s.getState()) + " " + frontier.contains(s));
+                if (!explored.contains(s.getState()) && !frontier.contains(s)) {
+                    frontier.add(s);
                 }
+                System.out.println(frontier + "-------");
             }
-        }
-        if (ArgParse.DEBUG) {
-            System.out.println("]");
         }
         return false;
-
     }
 }
-

@@ -8,55 +8,78 @@ import rushhour.ia.framework.jeux.Player;
 
 public class MinMaxAlphaBetaPlayer extends Player {
 
+    private int numStates = 0;
+    private int profondeur = 0;
+    private int profondeurMax = 5000;
+
     public MinMaxAlphaBetaPlayer(Game g, boolean p1) {
         super(g, p1);
-        name = "MinMax";
+        name = "MinMaxAlphaBeta";
     }
 
     @Override
     public Action getMove(GameState state) {
+        profondeur = 0;
+        System.out.println(numStates);
         if (player == PLAYER1)
             return MaxValeur(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).getAction();
         else
             return MinValeur(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).getAction();
     }
 
-    private ActionValuePair MaxValeur(GameState state, double alpha, double beta) {
-        if (game.endOfGame(state))
-            return new ActionValuePair(null, state.getGameValue());
-        ActionValuePair best = new ActionValuePair(null, Double.NEGATIVE_INFINITY);
-
-        for (Action a : game.getActions(state)) {
-            GameState next = (GameState) game.doAction(state, a);
-            ActionValuePair v = MinValeur(next, alpha, beta);
-            if (v.getValue() > best.getValue()){
-                best = new ActionValuePair(a, v.getValue());
-                if (best.getValue() > alpha)
-                    best = new ActionValuePair(a, best.getValue());
-            }
-            if (best.getValue() >= beta)
-                return best;
+    private ActionValuePair MaxValeur(GameState s, double alpha, double beta) {
+        if (game.endOfGame(s) || profondeur == profondeurMax) {
+            return new ActionValuePair(null, s.getGameValue());
         }
-        return best;
+
+        double vMax = Double.NEGATIVE_INFINITY;
+        Action cMax = null;
+        profondeur++;
+        for (Action c : game.getActions(s)) {
+            numStates++;
+            System.out.println(numStates);
+            GameState sSuivant = (GameState) game.doAction(s, c);
+            ActionValuePair v = MinValeur(sSuivant, alpha, beta);
+            if (v.getValue() > vMax) {
+                vMax = v.getValue();
+                cMax = c;
+                if (vMax > alpha) {
+                    alpha = vMax;
+                }
+            }
+            if (vMax >= beta) {
+                return new ActionValuePair(cMax, vMax);
+            }
+        }
+        return new ActionValuePair(cMax, vMax);
     }
 
-    private ActionValuePair MinValeur(GameState state, double alpha, double beta) {
-        if (game.endOfGame(state))
-            return new ActionValuePair(null, state.getGameValue());
-        ActionValuePair best = new ActionValuePair(null, Double.POSITIVE_INFINITY);
-
-        for (Action a : game.getActions(state)) {
-            GameState next = (GameState) game.doAction(state, a);
-            ActionValuePair v = MaxValeur(next, alpha, beta);
-            if (v.getValue() < best.getValue()) {
-                best = new ActionValuePair(a, v.getValue());
-                if (best.getValue() < beta)
-                    best = new ActionValuePair(a, best.getValue());
-            }
-            if (best.getValue() <= alpha)
-                return best;
+    private ActionValuePair MinValeur(GameState s, double alpha, double beta) {
+        if (game.endOfGame(s) || profondeur == profondeurMax) {
+            return new ActionValuePair(null, s.getGameValue());
         }
-        return best;
+
+        double vMin = Double.POSITIVE_INFINITY;
+        Action cMin = null;
+        profondeur++;
+
+        for (Action c : game.getActions(s)) {
+            numStates++;
+            System.out.println(numStates);
+            GameState sSuivant = (GameState) game.doAction(s, c);
+            ActionValuePair v = MaxValeur(sSuivant, alpha, beta);
+            if (v.getValue() < vMin) {
+                vMin = v.getValue();
+                cMin = c;
+                if (vMin < beta) {
+                    beta = vMin;
+                }
+            }
+            if (vMin <= alpha) {
+                return new ActionValuePair(cMin, vMin);
+            }
+        }
+        return new ActionValuePair(cMin, vMin);
     }
 
 }

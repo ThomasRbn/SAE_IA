@@ -8,6 +8,8 @@ import rushhour.ia.framework.jeux.Player;
 
 public class MinMaxPlayer extends Player {
 
+    private int numStates = 0;
+
     /**
      * Represente un joueur
      *
@@ -20,6 +22,7 @@ public class MinMaxPlayer extends Player {
     }
 
     public Action minMax(GameState s){
+        System.out.println(numStates);
         return player == PLAYER1 ? max(s).getAction() : min( s).getAction();
     }
 
@@ -32,6 +35,7 @@ public class MinMaxPlayer extends Player {
         Action cMax = null;
 
         for (Action c : game.getActions(s)){
+            numStates++;
             GameState sSuivant = (GameState) game.doAction(s, c);
             ActionValuePair v = min(sSuivant);
             if (v.getValue() > vMax){
@@ -51,6 +55,7 @@ public class MinMaxPlayer extends Player {
         Action cMin = null;
 
         for (Action c : game.getActions(s)){
+            numStates++;
             GameState sSuivant = (GameState) game.doAction(s, c);
             ActionValuePair v = max(sSuivant);
             if (v.getValue() < vMin){
