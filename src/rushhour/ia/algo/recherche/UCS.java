@@ -17,7 +17,7 @@ public class UCS extends TreeSearch {
      */
     public UCS(SearchProblem p, State s) {
         super(p, s);
-        frontier = new PriorityQueue<>();
+        frontier = new PriorityQueue<>(new SearchNodeComparator());
     }
 
     @Override
