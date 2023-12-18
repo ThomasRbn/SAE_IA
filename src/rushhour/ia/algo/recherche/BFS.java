@@ -30,6 +30,7 @@ public class BFS extends TreeSearch {
             node = frontier.poll();
             if (problem.isGoalState(node.getState())) {
                 end_node = node;
+                System.out.println("Solution trouvée" + node.getState());
                 return true;
             }
 
@@ -41,17 +42,11 @@ public class BFS extends TreeSearch {
 //                System.out.println(s.getState());
 //                System.out.println(!explored.contains(s.getState()) + " " + !frontier.contains(s));
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
                 if (!explored.contains(s.getState()) && !frontier.contains(s)) {
-                    System.out.println(a);
+                    System.out.println("Action effectuée : " + a);
                     frontier.add(s);
                 }
-//                System.out.println(frontier + "-------");
                 System.out.println(explored);
                 for (State n : explored) {
                     System.out.println(n.hashCode());

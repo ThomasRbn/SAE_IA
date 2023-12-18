@@ -126,11 +126,7 @@ public class RushHourCar {
     }
 
     public int[][] getPosition() {
-        int[][] positionCopy = new int[position.length][position[0].length];
-        for (int i = 0; i < position.length; i++) {
-            positionCopy[i] = position[i].clone();
-        }
-        return positionCopy;
+        return position;
     }
 
     public boolean isVertical() {

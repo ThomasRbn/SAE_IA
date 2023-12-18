@@ -21,13 +21,13 @@ public class RushHourState extends State {
             }
         }
 
-        RushHourCar redcar = new RushHourCar(2, new int[][]{{5, 2}, {6, 2}}, 'R', false);
-//        RushHourCar car1 = new RushHourCar(3, new int[][]{{2, 0}, {2, 1}, {2, 2}}, 'A', true);
-//        RushHourCar car2 = new RushHourCar(2, new int[][]{{4, 0}, {5, 0}}, 'B', false);
-//        RushHourCar car3 = new RushHourCar(3, new int[][]{{0, 3}, {1, 3}, {2, 3}}, 'C', false);
-//        RushHourCar car4 = new RushHourCar(3, new int[][]{{5, 3}, {5, 4}, {5, 5}}, 'D', true);
+        RushHourCar redcar = new RushHourCar(2, new int[][]{{0, 2}, {1, 2}}, 'R', false);
+        RushHourCar car1 = new RushHourCar(3, new int[][]{{2, 0}, {2, 1}, {2, 2}}, 'A', true);
+        RushHourCar car2 = new RushHourCar(2, new int[][]{{4, 0}, {5, 0}}, 'B', false);
+        RushHourCar car3 = new RushHourCar(3, new int[][]{{0, 3}, {1, 3}, {2, 3}}, 'C', false);
+        RushHourCar car4 = new RushHourCar(3, new int[][]{{5, 3}, {5, 4}, {5, 5}}, 'D', true);
         cars = new ArrayList<>();
-        cars.addAll(List.of(redcar));
+        cars.addAll(List.of(redcar, car1, car2, car3, car4));
 
         for (RushHourCar car : cars) {
             int[][] positions = car.getPosition();
@@ -148,6 +148,6 @@ public class RushHourState extends State {
 
     @Override
     protected int hashState() {
-        return Objects.hash( cars);
+        return Objects.hash(cars);
     }
 }
