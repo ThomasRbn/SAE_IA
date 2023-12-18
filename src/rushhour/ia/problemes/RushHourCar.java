@@ -2,7 +2,9 @@ package rushhour.ia.problemes;
 
 import rushhour.ia.framework.common.Action;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class RushHourCar {
 
@@ -13,9 +15,24 @@ public class RushHourCar {
 
     public RushHourCar(int length, int[][] position, char name, boolean isVertical) {
         this.length = length;
-        this.position = position;
+        int[][] positionCopy = new int[position.length][position[0].length];
+        for (int i = 0; i < position.length; i++) {
+            positionCopy[i] = position[i].clone();
+        }
+        this.position = positionCopy;
         this.name = name;
         this.isVertical = isVertical;
+    }
+
+    public RushHourCar(RushHourCar car) {
+        this.length = car.length;
+        int[][] positionCopy = new int[car.position.length][car.position[0].length];
+        for (int i = 0; i < car.position.length; i++) {
+            positionCopy[i] = car.position[i].clone();
+        }
+        this.position = positionCopy;
+        this.name = car.name;
+        this.isVertical = car.isVertical;
     }
 
     public boolean isLegal(Action a, List<RushHourCar> cars) {

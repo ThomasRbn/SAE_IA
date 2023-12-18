@@ -39,16 +39,12 @@ public class RushHourState extends State {
         System.out.println(this);
     }
 
-    public RushHourState(char[][] board, List<RushHourCar> cars) {
-        char[][] boardCopy = new char[board.length][board[0].length];
-        for (int i = 0; i < board.length; i++) {
-            boardCopy[i] = board[i].clone();
-        }
-        this.board = boardCopy;
+    public RushHourState(RushHourState rh) {
         this.cars = new ArrayList<>();
-        for (RushHourCar car : cars) {
-            this.cars.add(new RushHourCar(car.getLength(), car.getPosition(), car.getName(), car.isVertical()));
+        for (RushHourCar car : rh.cars) {
+            this.cars.add(new RushHourCar(car));
         }
+        updateBoard();
     }
 
     public void updateBoard() {
@@ -141,7 +137,7 @@ public class RushHourState extends State {
 
     @Override
     protected State cloneState() {
-        return new RushHourState(board, cars);
+        return new RushHourState(this);
     }
 
     @Override
@@ -168,6 +164,6 @@ public class RushHourState extends State {
 
     @Override
     protected int hashState() {
-        return 31 * Arrays.deepHashCode(board);
+        return 31 * Arrays.deepHashCode(board) + 31 * cars.hashCode();
     }
 }
