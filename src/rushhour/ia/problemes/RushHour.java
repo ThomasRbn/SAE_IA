@@ -43,7 +43,7 @@ public class RushHour extends SearchProblem {
 
     @Override
     public boolean isGoalState(State s) {
-        return ((RushHourState) s).getBoard()[6][2] == 'R' && ((RushHourState) s).getBoard()[6][3] == 'R';
+        return ((RushHourState) s).getBoard()[6][2] == 'R' && ((RushHourState) s).getBoard()[7][2] == 'R';
     }
 
     @Override

@@ -7,6 +7,7 @@ import rushhour.ia.framework.recherche.SearchProblem;
 import rushhour.ia.framework.recherche.TreeSearch;
 
 import java.util.ArrayDeque;
+import java.util.HashSet;
 
 public class BFS extends TreeSearch {
     /**
@@ -24,7 +25,6 @@ public class BFS extends TreeSearch {
     public boolean solve() {
         SearchNode node = SearchNode.makeRootSearchNode(intial_state);
         frontier.add(node);
-        explored.add(node.getState());
 
         while (!frontier.isEmpty()) {
             node = frontier.poll();
@@ -34,7 +34,6 @@ public class BFS extends TreeSearch {
             }
 
             explored.add(node.getState());
-            System.out.println(problem.getActions(node.getState()));
             for (Action a : problem.getActions(node.getState())) {
                 SearchNode s = SearchNode.makeChildSearchNode(this.problem, node, a);
                 System.out.println(s.getState());
@@ -43,7 +42,6 @@ public class BFS extends TreeSearch {
                 } catch (Exception e) {
                 }
                 System.out.println(explored.contains(s.getState()));
-                System.out.println(frontier.contains(s));
                 if (!explored.contains(s.getState()) && !frontier.contains(s)) {
                     frontier.add(s);
                 }

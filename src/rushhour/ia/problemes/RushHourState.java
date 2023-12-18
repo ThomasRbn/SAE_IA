@@ -22,7 +22,7 @@ public class RushHourState extends State {
             }
         }
 
-        RushHourCar redcar = new RushHourCar(2, new int[][]{{0, 2}, {1, 2}}, 'R', false);
+        RushHourCar redcar = new RushHourCar(2, new int[][]{{5, 2}, {6, 2}}, 'R', false);
 //        RushHourCar car1 = new RushHourCar(3, new int[][]{{2, 0}, {2, 1}, {2, 2}}, 'A', true);
 //        RushHourCar car2 = new RushHourCar(2, new int[][]{{4, 0}, {5, 0}}, 'B', false);
 //        RushHourCar car3 = new RushHourCar(3, new int[][]{{0, 3}, {1, 3}, {2, 3}}, 'C', false);
@@ -36,6 +36,7 @@ public class RushHourState extends State {
                 board[positions[i][0]][positions[i][1]] = car.getName();
             }
         }
+        System.out.println(this);
     }
 
     public RushHourState(char[][] board, List<RushHourCar> cars) {
@@ -44,7 +45,7 @@ public class RushHourState extends State {
     }
 
     public void updateBoard() {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 8; i++) {
             board[i] = new char[6];
             for (int j = 0; j < 6; j++) {
                 board[i][j] = ' ';
@@ -87,9 +88,11 @@ public class RushHourState extends State {
     public void moveCarRight(char car) {
         RushHourCar carToMove = getCarToMove(car);
         int[][] pos = carToMove.getPosition();
+        System.out.println(Arrays.deepToString(pos));
         for (int i = 0; i < carToMove.getLength(); i++) {
             pos[i][0]++;
         }
+        System.out.println(Arrays.deepToString(pos));
     }
 
     public void moveCarDown(char car) {
@@ -103,9 +106,11 @@ public class RushHourState extends State {
     public void moveCarLeft(char car) {
         RushHourCar carToMove = getCarToMove(car);
         int[][] pos = carToMove.getPosition();
+        System.out.println(Arrays.deepToString(pos));
         for (int i = 0; i < carToMove.getLength(); i++) {
             pos[i][0]--;
         }
+        System.out.println(Arrays.deepToString(pos));
     }
 
     @Override
