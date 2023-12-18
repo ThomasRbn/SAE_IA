@@ -37,17 +37,13 @@ public class RushHour extends SearchProblem {
             case "LEFT" -> newState.moveCarLeft(a.getName().charAt(0));
             case "RIGHT" -> newState.moveCarRight(a.getName().charAt(0));
         }
+        newState.updateBoard();
         return newState;
     }
 
     @Override
     public boolean isGoalState(State s) {
-        for (int x = 0; x < 6; x++)
-            for (int y = 0; y < 6; y++)
-                if (((RushHourState) s).getBoard()[x][y] == 'R')
-                    return false;
-
-        return true;
+        return ((RushHourState) s).getBoard()[6][2] == 'R' && ((RushHourState) s).getBoard()[6][3] == 'R';
     }
 
     @Override

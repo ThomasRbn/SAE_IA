@@ -90,7 +90,11 @@ public class RushHourCar {
                         }
                     }
                 }
-                yield this.position[this.length - 1][0] < 5 && !collision;
+
+                if (this.getName() == 'R') {
+                    yield this.position[this.length - 1][0] < 7 && !collision;
+                }
+                    yield this.position[this.length - 1][0] < 5 && !collision;
             }
             default -> false;
         };
