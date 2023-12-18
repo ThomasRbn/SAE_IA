@@ -43,6 +43,7 @@ public class RushHourState extends State {
         for (RushHourCar car : rh.cars) {
             this.cars.add(new RushHourCar(car));
         }
+        this.board = new char[rh.board.length][rh.board[0].length];
         updateBoard();
     }
 
