@@ -13,6 +13,7 @@ public class RushHourState extends State {
     private char[][] board;
 
     public RushHourState() {
+        cars = new ArrayList<>();
         board = new char[8][6];
         for (int i = 0; i < 8; i++) {
             board[i] = new char[8];
@@ -21,13 +22,30 @@ public class RushHourState extends State {
             }
         }
 
-        RushHourCar redcar = new RushHourCar(2, new int[][]{{0, 2}, {1, 2}}, 'R', false);
-        RushHourCar car1 = new RushHourCar(3, new int[][]{{2, 0}, {2, 1}, {2, 2}}, 'A', true);
-        RushHourCar car2 = new RushHourCar(2, new int[][]{{4, 0}, {5, 0}}, 'B', false);
-        RushHourCar car3 = new RushHourCar(3, new int[][]{{0, 3}, {1, 3}, {2, 3}}, 'C', false);
-        RushHourCar car4 = new RushHourCar(3, new int[][]{{5, 3}, {5, 4}, {5, 5}}, 'D', true);
-        cars = new ArrayList<>();
-        cars.addAll(List.of(redcar, car1, car2, car3, car4));
+        //Niveau BEGINNER
+//        RushHourCar redcar = new RushHourCar(2, new int[][]{{0, 2}, {1, 2}}, 'R', false);
+//        RushHourCar car1 = new RushHourCar(3, new int[][]{{2, 0}, {2, 1}, {2, 2}}, 'A', true);
+//        RushHourCar car2 = new RushHourCar(2, new int[][]{{4, 0}, {5, 0}}, 'B', false);
+//        RushHourCar car3 = new RushHourCar(3, new int[][]{{0, 3}, {1, 3}, {2, 3}}, 'C', false);
+//        RushHourCar car4 = new RushHourCar(3, new int[][]{{5, 3}, {5, 4}, {5, 5}}, 'D', true);
+//        cars.addAll(List.of(redcar, car1, car2, car3, car4));
+
+        //Niveau EXPERT
+        RushHourCar redcar = new RushHourCar(2, new int[][]{{1, 2}, {2, 2}}, 'R', false);
+        RushHourCar car1 = new RushHourCar(2, new int[][]{{0, 0}, {0, 1}}, 'A', true);
+        RushHourCar car2 = new RushHourCar(2, new int[][]{{1, 0}, {1, 1}}, 'B', true);
+        RushHourCar car3 = new RushHourCar(2, new int[][]{{2, 0}, {3, 0}}, 'C', false);
+        RushHourCar car4 = new RushHourCar(2, new int[][]{{4, 0}, {4, 1}}, 'D', true);
+        RushHourCar car5 = new RushHourCar(2, new int[][]{{5, 0}, {5, 1}}, 'E', true);
+        RushHourCar car6 = new RushHourCar(3, new int[][]{{0, 2}, {0, 3}, {0, 4}}, 'F', true);
+        RushHourCar car7 = new RushHourCar(2, new int[][]{{1, 3}, {2, 3}}, 'G', false);
+        RushHourCar car8 = new RushHourCar(2, new int[][]{{3, 2}, {3, 3}}, 'H', true);
+        RushHourCar car9 = new RushHourCar(2, new int[][]{{5, 2}, {5, 3}}, 'I', true);
+        RushHourCar car10 = new RushHourCar(2, new int[][]{{0, 5}, {1, 5}}, 'J', false);
+        RushHourCar car11 = new RushHourCar(2, new int[][]{{2, 4}, {2, 5}}, 'K', true);
+        RushHourCar car12 = new RushHourCar(3, new int[][]{{3, 4}, {4, 4}, {5, 4}},'L', false);
+        RushHourCar car13 = new RushHourCar(3, new int[][]{{3, 5}, {4, 5}, {5, 5}},'M', false);
+        cars.addAll(List.of(redcar, car1, car2, car3, car4, car5, car6, car7, car8, car9, car10, car11, car12, car13));
 
         for (RushHourCar car : cars) {
             int[][] positions = car.getPosition();
@@ -36,6 +54,11 @@ public class RushHourState extends State {
             }
         }
         System.out.println(this);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public RushHourState(RushHourState rh) {
