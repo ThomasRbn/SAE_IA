@@ -1,13 +1,14 @@
 package rushhour.ia.problemes;
 
 import rushhour.ia.framework.common.State;
+import rushhour.ia.framework.recherche.HasHeuristic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class RushHourState extends State {
+public class RushHourState extends State implements HasHeuristic {
 
     private List<RushHourCar> cars;
     private char[][] board;
@@ -23,12 +24,12 @@ public class RushHourState extends State {
         }
 
         //Niveau BEGINNER
-//        RushHourCar redcar = new RushHourCar(2, new int[][]{{0, 2}, {1, 2}}, 'R', false);
-//        RushHourCar car1 = new RushHourCar(3, new int[][]{{2, 0}, {2, 1}, {2, 2}}, 'A', true);
-//        RushHourCar car2 = new RushHourCar(2, new int[][]{{4, 0}, {5, 0}}, 'B', false);
-//        RushHourCar car3 = new RushHourCar(3, new int[][]{{0, 3}, {1, 3}, {2, 3}}, 'C', false);
-//        RushHourCar car4 = new RushHourCar(3, new int[][]{{5, 3}, {5, 4}, {5, 5}}, 'D', true);
-//        cars.addAll(List.of(redcar, car1, car2, car3, car4));
+        /*RushHourCar redcar = new RushHourCar(2, new int[][]{{0, 2}, {1, 2}}, 'R', false);
+        RushHourCar car1 = new RushHourCar(3, new int[][]{{2, 0}, {2, 1}, {2, 2}}, 'A', true);
+        RushHourCar car2 = new RushHourCar(2, new int[][]{{4, 0}, {5, 0}}, 'B', false);
+        RushHourCar car3 = new RushHourCar(3, new int[][]{{0, 3}, {1, 3}, {2, 3}}, 'C', false);
+        RushHourCar car4 = new RushHourCar(3, new int[][]{{5, 3}, {5, 4}, {5, 5}}, 'D', true);
+        cars.addAll(List.of(redcar, car1, car2, car3, car4));*/
 
         //Niveau EXPERT
         RushHourCar redcar = new RushHourCar(2, new int[][]{{1, 2}, {2, 2}}, 'R', false);
@@ -166,5 +167,12 @@ public class RushHourState extends State {
     @Override
     protected int hashState() {
         return Objects.hash(cars);
+    }
+
+    @Override
+    public double getHeuristic() {
+        int endPoint = 7;
+        int carPoint = cars.get(0).getPosition()[1][0];
+        return endPoint - carPoint;
     }
 }

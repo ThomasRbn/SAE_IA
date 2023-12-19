@@ -39,10 +39,6 @@ public class BFS extends TreeSearch {
             for (Action a : problem.getActions(node.getState())) {
                 SearchNode s = SearchNode.makeChildSearchNode(this.problem, node, a);
 
-//                System.out.println(s.getState());
-//                System.out.println(!explored.contains(s.getState()) + " " + !frontier.contains(s));
-
-
                 if (!explored.contains(s.getState()) && !frontier.contains(s)) {
                     System.out.println("Action effectuée : " + a);
                     frontier.add(s);

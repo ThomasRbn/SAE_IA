@@ -10,7 +10,9 @@ public class MinMaxAlphaBetaPlayer extends Player {
 
     private int numStates = 0;
     private int profondeur = 0;
-    private int profondeurMax = 5000;
+    private int profondeurMax = 5000000;
+    long startTime = System.currentTimeMillis();
+    long endTime = System.currentTimeMillis();
 
     public MinMaxAlphaBetaPlayer(Game g, boolean p1) {
         super(g, p1);
@@ -21,6 +23,7 @@ public class MinMaxAlphaBetaPlayer extends Player {
     public Action getMove(GameState state) {
         profondeur = 0;
         System.out.println(numStates);
+        long startTime = System.currentTimeMillis();
         if (player == PLAYER1)
             return MaxValeur(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).getAction();
         else
@@ -28,7 +31,9 @@ public class MinMaxAlphaBetaPlayer extends Player {
     }
 
     private ActionValuePair MaxValeur(GameState s, double alpha, double beta) {
-        if (game.endOfGame(s) || profondeur == profondeurMax) {
+        if (game.endOfGame(s) || profondeur >= profondeurMax) {
+            endTime = System.currentTimeMillis();
+            System.out.println("That took " + (endTime - startTime) + " milliseconds");
             return new ActionValuePair(null, s.getGameValue());
         }
 
@@ -56,6 +61,8 @@ public class MinMaxAlphaBetaPlayer extends Player {
 
     private ActionValuePair MinValeur(GameState s, double alpha, double beta) {
         if (game.endOfGame(s) || profondeur == profondeurMax) {
+            endTime = System.currentTimeMillis();
+            System.out.println("That took " + (endTime - startTime) + " milliseconds");
             return new ActionValuePair(null, s.getGameValue());
         }
 

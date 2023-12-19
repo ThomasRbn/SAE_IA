@@ -8,11 +8,11 @@ public class Main {
     public static int SIZE = 28;
 
     public static void main(String[] args) {
-        runFunctions(new TangenteHyperbolique());
-        runFunctions(new Sigmoide());
+        runFunctions(new TangenteHyperbolique(), true);
+        runFunctions(new TangenteHyperbolique(), false);
     }
 
-    private static void runFunctions(TransferFunction transferFunction) {
+    private static void runFunctions(TransferFunction transferFunction, boolean randomizeData) {
         // Partie des Images
         Donnees trainingDataClothes = Imagette.loadImagettes(2000, "assets/clothes/train-images.idx3-ubyte", "assets/clothes/train-labels.idx1-ubyte");
         Donnees sampleDataClothes = Imagette.loadImagettes(300, "assets/clothes/t10k-images.idx3-ubyte", "assets/clothes/t10k-labels.idx1-ubyte");
@@ -20,18 +20,21 @@ public class Main {
         Donnees trainingDataNum = Imagette.loadImagettes(2000, "assets/numbers/train-images.idx3-ubyte", "assets/numbers/train-labels.idx1-ubyte");
         Donnees sampleDataNum = Imagette.loadImagettes(300, "assets/numbers/t10k-images.idx3-ubyte", "assets/numbers/t10k-labels.idx1-ubyte");
 
+        Donnees chosenDonnees = trainingDataNum;
+        Donnees chosenSample = sampleDataNum;
         long startTime = System.currentTimeMillis();
-        runKNN(trainingDataClothes, sampleDataClothes);
+        runKNN(chosenDonnees, chosenSample);
         long endTime = System.currentTimeMillis();
         System.out.println("Temps d'exécution : " + (endTime - startTime) + "ms");
 
         int[] layers = {28*28, 128, 10};
+
         startTime = System.currentTimeMillis();
-        runMLP(layers, trainingDataClothes, sampleDataClothes, transferFunction, 0.05);
+        runMLP(layers, chosenDonnees, chosenSample, transferFunction, 0.05, randomizeData);
         endTime = System.currentTimeMillis();
         System.out.println(" " + (endTime - startTime) + "ms");
 
-        /*for (int i = 1; i <= 100; i++) {
+        /*for (int i = 1; i <= 100; i=i+5) {
 
             // Nombre de couches
             *//*layers = new int[i+2];
@@ -42,10 +45,10 @@ public class Main {
             layers[layers.length-1] = 10;*//*
 
             // Nombre de neurones couche cachée
-            *//*layers[1] = i;*//*
+            //layers[1] = i;
 
             startTime = System.currentTimeMillis();
-            runMLP(layers, trainingData, sampleData, transferFunction, 0.05);
+            runMLP(layers, chosenDonnees, chosenSample, transferFunction, 0.05/i);
             endTime = System.currentTimeMillis();
             System.out.println(" " + (endTime - startTime) + "ms");
         }*/
@@ -57,7 +60,7 @@ public class Main {
         statsKnn.makeStats();
     }
 
-    private static void runMLP(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction, double learningRate) {
+    private static void runMLP(int[] layers, Donnees trainingData, Donnees sampleData, TransferFunction transferFunction, double learningRate, boolean randomizeData) {
         // Ajout des données essentielles
         MLP mlp = new MLP(layers, learningRate, transferFunction);
 
@@ -137,5 +140,4 @@ public class Main {
             }
         }
     }
-
 }

@@ -12,7 +12,7 @@ import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public class DFS extends TreeSearch implements HasHeuristic {
+public class DFS extends TreeSearch {
     public DFS(SearchProblem p, State s) {
         super(p, s);
     }
@@ -55,10 +55,5 @@ public class DFS extends TreeSearch implements HasHeuristic {
         }
         return false;
 
-    }
-
-    @Override
-    public double getHeuristic() {
-        return 0;
     }
 }
