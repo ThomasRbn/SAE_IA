@@ -13,7 +13,7 @@ public class MinMaxAlphaBetaPlayer extends Player {
 
     private int numStates = 0;
     private int profondeur = 0;
-    private int profondeurMax = 500;
+    private int profondeurMax = 500000;
 
     public MinMaxAlphaBetaPlayer(Game g, boolean p1) {
         super(g, p1);
@@ -34,7 +34,7 @@ public class MinMaxAlphaBetaPlayer extends Player {
             return new ActionValuePair(null, s.getGameValue());
         }
 
-        if (profondeur >= profondeurMax){
+        if (profondeur >= profondeurMax) {
             return evaluate(s);
         }
 
@@ -63,84 +63,63 @@ public class MinMaxAlphaBetaPlayer extends Player {
         ConnectFourState state = (ConnectFourState) s;
         int possibleWinsX = 0;
         int possibleWinsO = 0;
-        double value = 0;
         int[][] board = state.getBoard();
         int rows = state.getRows();
         int cols = state.getCols();
         // possible horizontal wins
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols - 3; c++) {
-                if(r + 4 > rows)
+                if (r + 4 > rows)
                     break;
-                if (isEqualOrEmpty(board[r][c],ConnectFourState.X) && isEqualOrEmpty(board[r][c + 1],ConnectFourState.EMPTY)
-                        && isEqualOrEmpty(board[r][c + 2],ConnectFourState.EMPTY) && isEqualOrEmpty(board[r][c + 3],ConnectFourState.EMPTY)) {
-                    possibleWinsX++;
-                }
-                if (isEqualOrEmpty(board[r][c],ConnectFourState.O) && isEqualOrEmpty(board[r][c + 1],ConnectFourState.O)
-                        && isEqualOrEmpty(board[r][c + 2],ConnectFourState.O) && isEqualOrEmpty(board[r][c + 3],ConnectFourState.O)) {
-                    possibleWinsO++;
-                }
+                possibleWinsX += isEqualOrEmpty(board[r][c + 1], ConnectFourState.X) + isEqualOrEmpty(board[r][c + 2], ConnectFourState.X) + isEqualOrEmpty(board[r][c + 3], ConnectFourState.X);
+                possibleWinsO += isEqualOrEmpty(board[r][c + 1], ConnectFourState.O) + isEqualOrEmpty(board[r][c + 2], ConnectFourState.O) + isEqualOrEmpty(board[r][c + 3], ConnectFourState.O);
             }
         }
         // possible vertical wins
         for (int r = 0; r < rows - 3; r++) {
             for (int c = 0; c < cols; c++) {
-                if(c + 4 > cols)
+                if (c + 4 > cols)
                     break;
-                if (isEqualOrEmpty(board[r][c],ConnectFourState.X) && isEqualOrEmpty(board[r + 1][c],ConnectFourState.X)
-                        && isEqualOrEmpty(board[r + 2][c],ConnectFourState.X) && isEqualOrEmpty(board[r + 3][c],ConnectFourState.X)) {
-                    possibleWinsX++;
-                }
-                if (isEqualOrEmpty(board[r][c],ConnectFourState.O) && isEqualOrEmpty(board[r + 1][c],ConnectFourState.O)
-                        && isEqualOrEmpty(board[r + 2][c],ConnectFourState.O) && isEqualOrEmpty(board[r + 3][c],ConnectFourState.O)) {
-                    possibleWinsO++;
-                }
+                possibleWinsX += isEqualOrEmpty(board[r + 1][c], ConnectFourState.X) + isEqualOrEmpty(board[r + 2][c], ConnectFourState.X) + isEqualOrEmpty(board[r + 3][c], ConnectFourState.X);
+                possibleWinsO += isEqualOrEmpty(board[r + 1][c], ConnectFourState.O) + isEqualOrEmpty(board[r + 2][c], ConnectFourState.O) + isEqualOrEmpty(board[r + 3][c], ConnectFourState.O);
             }
         }
         // possible diagonal up wins
         for (int r = 0; r < rows - 3; r++) {
             for (int c = 0; c < cols - 3; c++) {
-                if(r + 4 > rows || c + 4 > cols)
+                if (r + 4 > rows || c + 4 > cols)
                     break;
-                if (isEqualOrEmpty(board[r][c],ConnectFourState.X) && isEqualOrEmpty(board[r + 1][c + 1],ConnectFourState.X)
-                        && isEqualOrEmpty(board[r + 2][c + 2],ConnectFourState.X) && isEqualOrEmpty(board[r + 3][c + 3],ConnectFourState.X)) {
-                    possibleWinsX++;
-                }
-                if (isEqualOrEmpty(board[r][c],ConnectFourState.O) && isEqualOrEmpty(board[r + 1][c + 1],ConnectFourState.O)
-                        && isEqualOrEmpty(board[r + 2][c + 2],ConnectFourState.O) && isEqualOrEmpty(board[r + 3][c + 3],ConnectFourState.O)) {
-                    possibleWinsO++;
-                }
+                possibleWinsX += isEqualOrEmpty(board[r + 1][c + 1], ConnectFourState.X) + isEqualOrEmpty(board[r + 2][c + 2], ConnectFourState.X) + isEqualOrEmpty(board[r + 3][c + 3], ConnectFourState.X);
+                possibleWinsO += isEqualOrEmpty(board[r + 1][c + 1], ConnectFourState.O) + isEqualOrEmpty(board[r + 2][c + 2], ConnectFourState.O) + isEqualOrEmpty(board[r + 3][c + 3], ConnectFourState.O);
             }
         }
         // possible diagonal down wins
         for (int r = 3; r < rows; r++) {
             for (int c = 0; c < cols - 3; c++) {
-                if(r - 4 < 0 || c + 4 > cols)
+                if (r - 4 < 0 || c + 4 > cols)
                     break;
-                if (isEqualOrEmpty(board[r][c],ConnectFourState.X) && isEqualOrEmpty(board[r - 1][c + 1],ConnectFourState.X)
-                        && isEqualOrEmpty(board[r - 2][c + 2],ConnectFourState.X) && isEqualOrEmpty(board[r - 3][c + 3],ConnectFourState.X)) {
-                    possibleWinsX++;
-                }
-                if (isEqualOrEmpty(board[r][c],ConnectFourState.O) && isEqualOrEmpty(board[r - 1][c + 1],ConnectFourState.O)
-                        && isEqualOrEmpty(board[r - 2][c + 2],ConnectFourState.O) && isEqualOrEmpty(board[r - 3][c + 3],ConnectFourState.O)) {
-                    possibleWinsO++;
-                }
+                possibleWinsX += isEqualOrEmpty(board[r - 1][c + 1], ConnectFourState.X) + isEqualOrEmpty(board[r - 2][c + 2], ConnectFourState.X) + isEqualOrEmpty(board[r - 3][c + 3], ConnectFourState.X);
+                possibleWinsO += isEqualOrEmpty(board[r - 1][c + 1], ConnectFourState.O) + isEqualOrEmpty(board[r - 2][c + 2], ConnectFourState.O) + isEqualOrEmpty(board[r - 3][c + 3], ConnectFourState.O);
             }
         }
         double finalValue = 0;
-        if(possibleWinsX > possibleWinsO){
-            finalValue = (double) possibleWinsO /possibleWinsX;
-        } else if(possibleWinsX < possibleWinsO){
-            finalValue = (double) possibleWinsX /possibleWinsO;
+        if (possibleWinsX > possibleWinsO) {
+            finalValue = (double) possibleWinsO / possibleWinsX;
+        } else if (possibleWinsX < possibleWinsO) {
+            finalValue = (double) possibleWinsX / possibleWinsO;
         } else {
             finalValue = 0.5;
         }
         return new ActionValuePair(null, finalValue);
     }
 
-    private boolean isEqualOrEmpty(int a, int b) {
-        boolean b1 = a == b || a == 0;
-        return b1;
+    private int isEqualOrEmpty(int a, int b) {
+        if (a == b) {
+            return 2;
+        } else if (a == 0) {
+            return 1;
+        }
+        return 0;
     }
 
     private ActionValuePair MinValeur(GameState s, double alpha, double beta) {
@@ -148,7 +127,7 @@ public class MinMaxAlphaBetaPlayer extends Player {
             return new ActionValuePair(null, s.getGameValue());
         }
 
-        if (profondeur >= profondeurMax){
+        if (profondeur >= profondeurMax) {
             return evaluate(s);
         }
 

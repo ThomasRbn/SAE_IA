@@ -93,9 +93,6 @@ public class ConnectFourState extends GameState {
     }
 
     public int[][] getBoard() {
-        int[][] board = new int[rows][cols];
-        for(int r=0; r<rows; r++)
-            this.board[r] = board[r].clone();
         return board;
     }
 
