@@ -60,9 +60,12 @@ public class MinMaxAlphaBetaPlayer extends Player {
     }
 
     private ActionValuePair evaluate(GameState s) {
+        int player = s.getPlayerToMove();
         ConnectFourState state = (ConnectFourState) s;
         int possibleWinsX = 0;
         int possibleWinsO = 0;
+        boolean isGoalStateX = false;
+        boolean isGoalStateY = false;
         int[][] board = state.getBoard();
         int rows = state.getRows();
         int cols = state.getCols();
@@ -71,8 +74,10 @@ public class MinMaxAlphaBetaPlayer extends Player {
             for (int c = 0; c < cols - 3; c++) {
                 if (r + 4 > rows)
                     break;
-                possibleWinsX += isEqualOrEmpty(board[r][c + 1], ConnectFourState.X) + isEqualOrEmpty(board[r][c + 2], ConnectFourState.X) + isEqualOrEmpty(board[r][c + 3], ConnectFourState.X);
-                possibleWinsO += isEqualOrEmpty(board[r][c + 1], ConnectFourState.O) + isEqualOrEmpty(board[r][c + 2], ConnectFourState.O) + isEqualOrEmpty(board[r][c + 3], ConnectFourState.O);
+                possibleWinsX += isEqualOrEmpty(board[r][c], ConnectFourState.X) + isEqualOrEmpty(board[r][c + 1], ConnectFourState.X) * 2 + isEqualOrEmpty(board[r][c + 2], ConnectFourState.X) * 10 + isEqualOrEmpty(board[r][c + 3], ConnectFourState.X) * 100;
+                isGoalStateX = isGoalStateX || isGoalState(player, board[r][c], board[r][c + 1], board[r][c + 2], board[r][c + 3]);
+                possibleWinsO += isEqualOrEmpty(board[r][c], ConnectFourState.O) + isEqualOrEmpty(board[r][c + 1], ConnectFourState.O) * 2 + isEqualOrEmpty(board[r][c + 2], ConnectFourState.O) * 10 + isEqualOrEmpty(board[r][c + 3], ConnectFourState.O) * 100;
+                isGoalStateY = isGoalStateY || isGoalState(player, board[r][c], board[r][c + 1], board[r][c + 2], board[r][c + 3]);
             }
         }
         // possible vertical wins
@@ -80,8 +85,10 @@ public class MinMaxAlphaBetaPlayer extends Player {
             for (int c = 0; c < cols; c++) {
                 if (c + 4 > cols)
                     break;
-                possibleWinsX += isEqualOrEmpty(board[r + 1][c], ConnectFourState.X) + isEqualOrEmpty(board[r + 2][c], ConnectFourState.X) + isEqualOrEmpty(board[r + 3][c], ConnectFourState.X);
-                possibleWinsO += isEqualOrEmpty(board[r + 1][c], ConnectFourState.O) + isEqualOrEmpty(board[r + 2][c], ConnectFourState.O) + isEqualOrEmpty(board[r + 3][c], ConnectFourState.O);
+                possibleWinsX += isEqualOrEmpty(board[r][c], ConnectFourState.X) + isEqualOrEmpty(board[r + 1][c], ConnectFourState.X) * 2 + isEqualOrEmpty(board[r + 2][c], ConnectFourState.X) * 10 + isEqualOrEmpty(board[r + 3][c], ConnectFourState.X) * 100;
+                isGoalStateX = isGoalStateX || isGoalState(player, board[r][c], board[r + 1][c], board[r + 2][c], board[r + 3][c]);
+                possibleWinsO += isEqualOrEmpty(board[r][c], ConnectFourState.O) + isEqualOrEmpty(board[r + 1][c], ConnectFourState.O) * 2 + isEqualOrEmpty(board[r + 2][c], ConnectFourState.O) * 10 + isEqualOrEmpty(board[r + 3][c], ConnectFourState.O) * 100;
+                isGoalStateY = isGoalStateY || isGoalState(player, board[r][c], board[r + 1][c], board[r + 2][c], board[r + 3][c]);
             }
         }
         // possible diagonal up wins
@@ -89,8 +96,10 @@ public class MinMaxAlphaBetaPlayer extends Player {
             for (int c = 0; c < cols - 3; c++) {
                 if (r + 4 > rows || c + 4 > cols)
                     break;
-                possibleWinsX += isEqualOrEmpty(board[r + 1][c + 1], ConnectFourState.X) + isEqualOrEmpty(board[r + 2][c + 2], ConnectFourState.X) + isEqualOrEmpty(board[r + 3][c + 3], ConnectFourState.X);
-                possibleWinsO += isEqualOrEmpty(board[r + 1][c + 1], ConnectFourState.O) + isEqualOrEmpty(board[r + 2][c + 2], ConnectFourState.O) + isEqualOrEmpty(board[r + 3][c + 3], ConnectFourState.O);
+                possibleWinsX += isEqualOrEmpty(board[r][c], ConnectFourState.X) + isEqualOrEmpty(board[r + 1][c + 1], ConnectFourState.X) * 2 + isEqualOrEmpty(board[r + 2][c + 2], ConnectFourState.X) * 10 + isEqualOrEmpty(board[r + 3][c + 3], ConnectFourState.X) * 100;
+                isGoalStateX = isGoalStateX || isGoalState(player, board[r][c], board[r + 1][c + 1], board[r + 2][c + 2], board[r + 3][c + 3]);
+                possibleWinsO += isEqualOrEmpty(board[r][c], ConnectFourState.O) + isEqualOrEmpty(board[r + 1][c + 1], ConnectFourState.O) * 2 + isEqualOrEmpty(board[r + 2][c + 2], ConnectFourState.O) * 10 + isEqualOrEmpty(board[r + 3][c + 3], ConnectFourState.O) * 100;
+                isGoalStateY = isGoalStateY || isGoalState(player, board[r][c], board[r + 1][c + 1], board[r + 2][c + 2], board[r + 3][c + 3]);
             }
         }
         // possible diagonal down wins
@@ -98,26 +107,37 @@ public class MinMaxAlphaBetaPlayer extends Player {
             for (int c = 0; c < cols - 3; c++) {
                 if (r - 4 < 0 || c + 4 > cols)
                     break;
-                possibleWinsX += isEqualOrEmpty(board[r - 1][c + 1], ConnectFourState.X) + isEqualOrEmpty(board[r - 2][c + 2], ConnectFourState.X) + isEqualOrEmpty(board[r - 3][c + 3], ConnectFourState.X);
-                possibleWinsO += isEqualOrEmpty(board[r - 1][c + 1], ConnectFourState.O) + isEqualOrEmpty(board[r - 2][c + 2], ConnectFourState.O) + isEqualOrEmpty(board[r - 3][c + 3], ConnectFourState.O);
+                possibleWinsX += isEqualOrEmpty(board[r][c], ConnectFourState.X) + isEqualOrEmpty(board[r - 1][c + 1], ConnectFourState.X) * 2 + isEqualOrEmpty(board[r - 2][c + 2], ConnectFourState.X) * 10 + isEqualOrEmpty(board[r - 3][c + 3], ConnectFourState.X) * 100;
+                isGoalStateX = isGoalStateX || isGoalState(player, board[r][c], board[r - 1][c + 1], board[r - 2][c + 2], board[r - 3][c + 3]);
+                possibleWinsO += isEqualOrEmpty(board[r][c], ConnectFourState.O) + isEqualOrEmpty(board[r - 1][c + 1], ConnectFourState.O) * 2 + isEqualOrEmpty(board[r - 2][c + 2], ConnectFourState.O) * 10 + isEqualOrEmpty(board[r - 3][c + 3], ConnectFourState.O) * 100;
+                isGoalStateY = isGoalStateY || isGoalState(player, board[r][c], board[r - 1][c + 1], board[r - 2][c + 2], board[r - 3][c + 3]);
             }
         }
         double finalValue = 0;
-        if (possibleWinsX > possibleWinsO) {
-            finalValue = (double) possibleWinsO / possibleWinsX;
-        } else if (possibleWinsX < possibleWinsO) {
-            finalValue = (double) possibleWinsX / possibleWinsO;
+        if (player == ConnectFourState.X) {
+            if (isGoalStateX) possibleWinsX = 1;
+            if (isGoalStateY) possibleWinsO = 0;
         } else {
-            finalValue = 0.5;
+            if (isGoalStateX) possibleWinsX = 0;
+            if (isGoalStateY) possibleWinsO = 1;
+        }
+        if(possibleWinsX > possibleWinsO){
+            finalValue = (double) possibleWinsO/possibleWinsX;
+        } else {
+            finalValue = (double) possibleWinsX/possibleWinsO;
         }
         return new ActionValuePair(null, finalValue);
     }
 
-    private int isEqualOrEmpty(int a, int b) {
+    private boolean isGoalState(int player, int i, int i1, int i2, int i3) {
+        return (i == player && i1 == player && i2 == player && i3 == player);
+    }
+
+    private double isEqualOrEmpty(int a, int b) {
         if (a == b) {
-            return 2;
+            return 5;
         } else if (a == 0) {
-            return 1;
+            return 0.1;
         }
         return 0;
     }
