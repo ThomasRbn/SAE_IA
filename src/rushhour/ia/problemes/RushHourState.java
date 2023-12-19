@@ -173,6 +173,11 @@ public class RushHourState extends State implements HasHeuristic {
     public double getHeuristic() {
         int endPoint = 7;
         int carPoint = cars.get(0).getPosition()[1][0];
+        for (int i = carPoint; i < 6; i++) {
+            if (board[2][i] != ' ') {
+                endPoint += 1;
+            }
+        }
         return endPoint - carPoint;
     }
 }
