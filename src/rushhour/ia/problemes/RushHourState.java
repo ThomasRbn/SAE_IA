@@ -53,12 +53,6 @@ public class RushHourState extends State {
                 board[positions[i][0]][positions[i][1]] = car.getName();
             }
         }
-        System.out.println(this);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public RushHourState(RushHourState rh) {
